@@ -21,12 +21,12 @@ namespace Argus.Infrastructure.Repositories
 			_config = config;
 		}
 
-		public IEnumerable<App> GetUsers()
+		public IEnumerable<App> GetAppDataByDate(DateTime viewDate)
 		{
-			using (var connection = new SqlConnection(_config.GetConnectionString("DapperContribDemo")))
+			using (var connection = new SqlConnection(_config.GetConnectionString("Argus")))
 			{
 				connection.Open();
-				return connection.Query<App>(SqlGetAppDataByDate);
+				return connection.Query<App>(SqlGetAppDataByDate, new { Date = viewDate });
 			}
 		}
 
@@ -34,8 +34,7 @@ namespace Argus.Infrastructure.Repositories
 			@"
 			SELECT
 				DISTINCT AppName AS [Name],
-				COUNT(AppName) AS IssueCount,
-				IssueCount
+				COUNT(AppName) AS IssueCount
 			FROM AppIssues
 			WHERE SubmittedDate = @Date
 			GROUP BY AppName";
