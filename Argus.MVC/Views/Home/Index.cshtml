@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Argus.Core.App>
+
+@{
 	ViewData["Title"] = "Home";
 }
 
@@ -7,73 +9,62 @@
 	<p>Status as of @DateTime.Now.</p>
 </div>
 <div class="row">
-	<div class="col-sm-4">
-		<div class="card mb-3">
-			<h5 class="card-header text-white bg-success">Application 1</h5>
-			<div class="card-body">
-				<h5 class="card-title">Subtitle</h5>
-				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				<button type="button" class="btn btn-success rounded-pill">
-					Reports <span class="badge badge-light">0</span>
-				</button>
-				<a href="#" class="btn btn-primary rounded-pill">Report a problem</a>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-4">
-		<div class="card mb-3">
-			<h5 class="card-header bg-warning">Application 2</h5>
-			<div class="card-body">
-				<h5 class="card-title">Subtitle</h5>
-				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				<button type="button" class="btn btn-warning rounded-pill">
-					Reports <span class="badge badge-light">1</span>
-				</button>
-				<a href="#" class="btn btn-primary rounded-pill">Report a problem</a>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-4">
-		<div class="card mb-3">
-			<h5 class="card-header text-white bg-danger">Application 3</h5>
-			<div class="card-body">
-				<h5 class="card-title">Subtitle</h5>
-				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				<button type="button" class="btn btn-danger rounded-pill">
-					Reports <span class="badge badge-light">4</span>
-				</button>
-				<a href="#" class="btn btn-primary rounded-pill">Report a problem</a>
-				@*<span class="badge badge-pill badge-danger float-md-right">Danger</span>*@
-			</div>
-		</div>
-	</div>
+	@* Static card to illustrate issue-free application. *@
 	<div class="col-sm-4">
 		<div class="card mb-3">
 			<h5 class="card-header text-white bg-success">Application 4</h5>
 			<div class="card-body">
 				<h5 class="card-title">Subtitle</h5>
 				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				<a href="#" class="btn btn-primary rounded-pill">Report a problem</a>
+				<button type="button" class="btn bg-success text-white rounded-pill">
+					Reports <span class="badge badge-light">0</span>
+				</button>
+				<a href="#" class="btn btn-success rounded-pill">Report a problem</a>
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-4">
-		<div class="card mb-3">
-			<h5 class="card-header text-white bg-success">Application 5</h5>
-			<div class="card-body">
-				<h5 class="card-title">Subtitle</h5>
-				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				<a href="#" class="btn btn-primary rounded-pill">Report a problem</a>
+
+	@foreach (var app in Model)
+	{
+		string cssClassByIssueCount = "bg-success";
+		string cssTextColor = "text-white";
+
+		if (app.IssueCount >= 3)
+		{
+			cssClassByIssueCount = "bg-danger";
+		}
+		else if (app.IssueCount >= 1)
+		{
+			cssClassByIssueCount = "bg-warning";
+			cssTextColor = "text-dark";
+		}
+
+		<div class="col-sm-4">
+			<div class="card mb-3">
+				<h5 class="card-header @cssTextColor @cssClassByIssueCount">@app.Name</h5>
+				<div class="card-body">
+					<h5 class="card-title">Subtitle</h5>
+					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+					<button type="button" class="btn @cssClassByIssueCount @cssTextColor rounded-pill">
+						Reports <span class="badge badge-light">@app.IssueCount</span>
+					</button>
+					<a href="#" class="btn @cssClassByIssueCount @cssTextColor rounded-pill">Report a problem</a>
+				</div>
 			</div>
 		</div>
-	</div>
+	}
+
+	@* Static card to illustrate issue-free application and responsive design. *@
 	<div class="col-sm-4">
 		<div class="card mb-3">
-			<h5 class="card-header text-white bg-success">Application 6</h5>
+			<h5 class="card-header text-white bg-success">Application 4</h5>
 			<div class="card-body">
 				<h5 class="card-title">Subtitle</h5>
 				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				<a href="#" class="btn btn-primary rounded-pill">Report a problem</a>
+				<button type="button" class="btn bg-success text-white rounded-pill">
+					Reports <span class="badge badge-light">0</span>
+				</button>
+				<a href="#" class="btn btn-success rounded-pill">Report a problem</a>
 			</div>
 		</div>
 	</div>

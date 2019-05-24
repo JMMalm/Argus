@@ -27,7 +27,7 @@ namespace Argus.MVC.Controllers
 			// Hard-coded date because we'll only have a subset of data for a particular date.
 			var appData = _apprRepo.GetAppDataByDate(new DateTime(2019, 05, 23));
 
-			return View();
+			return View(appData);
 		}
 
 		public IActionResult Privacy()
