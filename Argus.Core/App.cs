@@ -8,7 +8,6 @@ namespace Argus.Core
 	/// </summary>
 	public class App
 	{
-		public int Id { get; set; }
 		public string Name { get; set; }
 		public int IssueCount { get; set; }
 		public string QueryString { get; set; }
