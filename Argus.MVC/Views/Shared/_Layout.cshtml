@@ -19,35 +19,31 @@
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary text-light border-bottom box-shadow mb-3">
-			<div class="container">
-				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Company_Name</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-						aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-					<ul class="navbar-nav flex-grow-1">
-						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
-						</li>
-					</ul>
-				</div>
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm fixed-top navbar-dark bg-primary text-light mb-3">
+			<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Company_Name</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+					aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+				<ul class="navbar-nav flex-grow-1">
+					<li class="nav-item">
+						<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
+					</li>
+				</ul>
 			</div>
 		</nav>
 	</header>
-	<div class="container">
+	<main role="main" class="container pb-3">
 		<partial name="_CookieConsentPartial" />
-		<main role="main" class="pb-3">
-			@RenderBody()
-		</main>
-	</div>
+		@RenderBody()
+	</main>
 
 	<footer class="border-top footer bg-primary text-light">
 		<div class="container">

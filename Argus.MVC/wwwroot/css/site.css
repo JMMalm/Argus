@@ -12,6 +12,7 @@ for details on configuring this project to bundle and minify static web assets. 
 html {
   font-size: 14px;
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -21,9 +22,6 @@ html {
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
 
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
@@ -32,6 +30,11 @@ html {
 button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
+}
+
+.container {
+	/* Offsets the fixed-top navbar to prevent overlap. */
+	padding-top: 70px;
 }
 
 /* Sticky footer styles
