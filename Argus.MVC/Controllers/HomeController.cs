@@ -24,6 +24,9 @@ namespace Argus.MVC.Controllers
 
 		public IActionResult Index()
 		{
+			// Get the Font Awesome CDN key from secrets.json.
+			ViewBag.FontAwesomeKey = _config.GetValue<string>("fontawesome-cdn-key");
+
 			// Hard-coded date because we'll only have a subset of data for a particular date.
 			var appData = _apprRepo.GetAppDataByDate(new DateTime(2019, 05, 23));
 

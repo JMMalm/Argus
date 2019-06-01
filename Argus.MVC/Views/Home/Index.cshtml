@@ -2,7 +2,10 @@
 
 @{
 	ViewData["Title"] = "Home";
+	string fontAwesomeCdnSource = "https://use.fontawesome.com/" + @ViewBag.FontAwesomeKey + ".js";
 }
+
+<script src="@fontAwesomeCdnSource"></script>
 
 <div class="text-center">
 	<h1 class="display-4">Argus - System Monitor</h1>
@@ -12,7 +15,10 @@
 	@* Static card to illustrate issue-free application. *@
 	<div class="col-sm-4">
 		<div class="card mb-3">
-			<h5 class="card-header text-white bg-success">Application 0</h5>
+			<h5 class="card-header text-white bg-success">
+				Application 0
+				<i class="fa fa-eye-slash fa-2 fa-clickable float-right" aria-hidden="true"></i>
+			</h5>
 			<div class="card-body">
 				<h5 class="card-title">Subtitle</h5>
 				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -41,23 +47,29 @@
 
 		<div class="col-sm-4">
 			<div class="card mb-3">
-				<h5 class="card-header @cssTextColor @cssClassByIssueCount">@app.Name</h5>
-				<div class="card-body">
-					<h5 class="card-title">Subtitle</h5>
-					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-					<button type="button" class="btn @cssClassByIssueCount @cssTextColor rounded-pill">
-						Reports <span class="badge badge-light">@app.IssueCount</span>
-					</button>
-					<a href="#" class="btn @cssClassByIssueCount @cssTextColor rounded-pill">Report a problem</a>
-				</div>
+				<h5 class="card-header @cssTextColor @cssClassByIssueCount">
+					@app.Name
+				<i class="fa fa-eye-slash fa-2 fa-clickable float-right" aria-hidden="true"></i>
+			</h5>
+			<div class="card-body">
+				<h5 class="card-title">Subtitle</h5>
+				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+				<button type="button" class="btn @cssClassByIssueCount @cssTextColor rounded-pill">
+					Reports <span class="badge badge-light">@app.IssueCount</span>
+				</button>
+				<a href="#" class="btn @cssClassByIssueCount @cssTextColor rounded-pill">Report a problem</a>
 			</div>
 		</div>
-	}
+	</div>
+}
 
 	@* Static card to illustrate issue-free application and responsive design. *@
 	<div class="col-sm-4">
 		<div class="card mb-3">
-			<h5 class="card-header text-white bg-success">Application 5</h5>
+			<h5 class="card-header text-white bg-success">
+				Application 5
+				<i class="fa fa-eye-slash fa-2 fa-clickable float-right" aria-hidden="true"></i>
+			</h5>
 			<div class="card-body">
 				<h5 class="card-title">Subtitle</h5>
 				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>

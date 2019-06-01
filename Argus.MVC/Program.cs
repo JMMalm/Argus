@@ -23,6 +23,7 @@ namespace Argus.MVC
 				{
 					config.SetBasePath(Directory.GetCurrentDirectory())
 						.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
+						.AddJsonFile("secrets.json", optional: false, reloadOnChange: true)
 						.Build();
 				})
 				.UseStartup<Startup>();

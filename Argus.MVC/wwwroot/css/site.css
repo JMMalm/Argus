@@ -37,6 +37,15 @@ button.accept-policy {
 	padding-top: 70px;
 }
 
+.fa-clickable {
+	cursor: pointer;
+	outline: none;
+}
+
+.float-right {
+	float: right;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

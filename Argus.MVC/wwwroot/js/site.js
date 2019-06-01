@@ -18,4 +18,8 @@
 			}, 2000);
 		}
 	});
+
+	$('i').click(function () {
+		$(this).parents('div.col-sm-4').hide();
+	});
 })
