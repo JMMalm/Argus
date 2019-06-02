@@ -14,9 +14,17 @@ html {
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+	html {
+		font-size: 16px;
+	}
+
+	.custom-control-label {
+		width: 150px;
+	}
+
+	.dropdown.show {
+		width: 500px;
+	}
 }
 
 .border-top {
