@@ -20,6 +20,20 @@
 	});
 
 	$('i').click(function () {
-		$(this).parents('div.col-sm-4').hide();
+		$(this).parents('div.col-sm-4').fadeOut();
 	});
 })
+
+var interval = null;
+function enableAutoRefresh() {
+	interval = setInterval(refreshData, 60000); // 60 seconds
+}
+
+function disableAutoRefresh() {
+	clearInterval(interval);
+}
+
+function refreshData() {
+	// Place-holder functionality for testing.
+	alert('Refresh called!');
+}
