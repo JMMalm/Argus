@@ -37,6 +37,10 @@ button.accept-policy {
 	padding-top: 70px;
 }
 
+.custom-control.custom-switch {
+	margin-left: 10px;
+}
+
 .fa-clickable {
 	cursor: pointer;
 	outline: none;

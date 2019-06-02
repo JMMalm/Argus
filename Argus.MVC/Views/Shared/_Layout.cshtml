@@ -19,7 +19,7 @@
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-expand-sm navbar-toggleable-sm fixed-top navbar-dark bg-primary text-light mb-3">
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm fixed-top navbar-dark bg-primary text-light mb-3 justify-content-center">
 			<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Company_Name</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
 					aria-expanded="false" aria-label="Toggle navigation">
@@ -41,15 +41,15 @@
 							Settings
 						</a>
 						<div class="dropdown-menu">
-							<div class="dropdown-item input">
-								<input id="AutoScroll" type="checkbox">
-								<span>Enable auto-scroll</span>
+							<div class="custom-control custom-switch">
+								<input id="AutoScrollCheckbox" type="checkbox" class="custom-control-input">
+								<label class="custom-control-label" for="AutoScrollCheckbox">Enable auto-scroll</label>
 							</div>
-							<div class="dropdown-item input">
-								<input type="checkbox" aria-label="Checkbox for following text input">
-								<span>Enable auto-refresh</span>
+							<div class="custom-control custom-switch">
+								<input id="AutoRefreshCheckbox" type="checkbox" class="custom-control-input">
+								<label class="custom-control-label" for="AutoRefreshCheckbox">Enable auto-refresh</label>
 							</div>
-							<a id="UnhideLink"class="dropdown-item" href="#">
+							<a id="UnhideLink" class="dropdown-item" href="#">
 								<i class="fa fa-eye fa-2 fa-clickable" aria-hidden="true"></i>
 								Show hidden apps
 							</a>
