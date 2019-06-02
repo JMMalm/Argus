@@ -19,8 +19,12 @@
 		}
 	});
 
-	$('i').click(function () {
-		$(this).parents('div.col-sm-4').fadeOut();
+	$('#UnhideLink').click(function () {
+		$('div.col-sm-4[data-hidden="true"').fadeIn();
+	});
+
+	$('h5 > i').click(function () {
+		$(this).parents('div.col-sm-4').attr('data-hidden', true).fadeOut();
 	});
 })
 
