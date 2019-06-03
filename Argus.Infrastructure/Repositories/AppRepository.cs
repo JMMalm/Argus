@@ -8,17 +8,13 @@ using System.Text;
 
 namespace Argus.Infrastructure.Repositories
 {
-	public class AppRepository
+	public class AppRepository : IAppRepository
 	{
 		private readonly IConfiguration _config;
 
 		public AppRepository(IConfiguration config)
 		{
-			if (config == null)
-			{
-				throw new ArgumentNullException("Configuration cannot be null.");
-			}
-			_config = config;
+			_config = config ?? throw new ArgumentNullException(nameof(config), "Configuration cannot be null.");
 		}
 
 		public IEnumerable<App> GetAppDataByDate(DateTime viewDate)

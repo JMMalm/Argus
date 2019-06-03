@@ -1,4 +1,5 @@
-﻿using Argus.Infrastructure.Repositories;
+﻿using Argus.Core;
+using Argus.Infrastructure.Repositories;
 using Argus.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -10,16 +11,14 @@ namespace Argus.MVC.Controllers
 	public class HomeController : Controller
 	{
 		private readonly IConfiguration _config;
-		private readonly AppRepository _apprRepo;
+		private readonly IAppRepository _apprRepo;
 
-		public HomeController(IConfiguration config)
+		public HomeController(IConfiguration config, IAppRepository appRepo)
 		{
-			if (config == null)
-			{
-				throw new ArgumentNullException("Configuration cannot be null.");
-			}
-			_config = config;
-			_apprRepo = new AppRepository(_config);
+			_config = config ??
+				throw new ArgumentNullException(nameof(config), "Configuration cannot be null.");
+			_apprRepo = appRepo ??
+				throw new ArgumentNullException(nameof(appRepo), "Repository cannot be null.");
 		}
 
 		public IActionResult Index()

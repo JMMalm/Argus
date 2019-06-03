@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Argus.Infrastructure.Repositories;
+using Argus.Core;
 
 namespace Argus.MVC
 {
@@ -33,6 +35,7 @@ namespace Argus.MVC
 
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+			services.AddTransient<IAppRepository, AppRepository>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
