@@ -51,7 +51,7 @@ namespace Argus.Tests
 		{
 			Mock<IAppRepository> mockRepo = new Mock<IAppRepository>();
 			mockRepo
-				.Setup(m => m.GetAppDataByDate(DateTime.Now))
+				.Setup(m => m.GetAppDataByDate(It.IsAny<DateTime>()))
 				.Returns(new List<App>
 				{
 					new App
