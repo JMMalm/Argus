@@ -12,6 +12,7 @@ using System.IO;
 namespace Argus.Tests
 {
 	[TestClass]
+	[TestCategory("Controller")]
 	public class HomeControllerTests
 	{
 		private static IConfiguration _config;
@@ -24,11 +25,7 @@ namespace Argus.Tests
 		[ClassInitialize]
 		public static void Initialize(TestContext context)
 		{
-			_config = new ConfigurationBuilder()
-				.SetBasePath(Directory.GetCurrentDirectory())
-				.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
-				.AddJsonFile(@"c:\code\argus\argus.MVC\secrets.json", optional: false, reloadOnChange: true)
-				.Build();
+			_config = TestAssistant.GetConfig();
 			_appRepo = new AppRepository(_config);
 		}
 		
@@ -51,7 +48,7 @@ namespace Argus.Tests
 		{
 			Mock<IAppRepository> mockRepo = new Mock<IAppRepository>();
 			mockRepo
-				.Setup(m => m.GetAppDataByDate(It.IsAny<DateTime>()))
+				.Setup(m => m.GetAppDataByDate(It.Is<DateTime>(viewDate => viewDate >= DateTime.MinValue)))
 				.Returns(new List<App>
 				{
 					new App
