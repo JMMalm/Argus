@@ -35,7 +35,9 @@ namespace Argus.MVC
 
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-			services.AddTransient<IAppRepository, AppRepository>();
+
+			services.AddScoped<IAppRepository, AppRepository>();
+			services.AddScoped<IIssueRepository, IssueRepository>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
