@@ -58,7 +58,7 @@ namespace Argus.Tests
 			var expectedStartDate = new DateTime(2019, 06, 06);
 			var expectedEndDate = expectedStartDate.AddDays(1);
 
-			var result = _issueRepo.GetIssuesByDate(expectedStartDate);
+			var result = _issueRepo.GetIssuesByDate(expectedStartDate, expectedEndDate);
 
 			Assert.IsInstanceOfType(result, typeof(IEnumerable<Issue>));
 			result.ToList().ForEach(i =>

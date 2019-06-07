@@ -8,7 +8,7 @@ namespace Argus.Core
 	{
 		IEnumerable<Issue> GetIssues();
 
-		IEnumerable<Issue> GetIssuesByDate(DateTime date);
+		IEnumerable<Issue> GetIssuesByDate(DateTime date, DateTime endDate);
 
 		Issue GetIssueById(int id);
 	}

@@ -36,7 +36,7 @@ namespace Argus.Infrastructure.Repositories
 			}
 		}
 
-		public IEnumerable<Issue> GetIssuesByDate(DateTime date)
+		public IEnumerable<Issue> GetIssuesByDate(DateTime date, DateTime endDate)
 		{
 			using (var connection = new SqlConnection(_config.GetConnectionString("Argus")))
 			{
@@ -44,7 +44,7 @@ namespace Argus.Infrastructure.Repositories
 				return connection.Query<Issue>(SqlGetIssuesByDate, new
 				{
 					Date = date,
-					EndDate = date.AddDays(1)
+					EndDate = endDate
 				});
 			}
 		}

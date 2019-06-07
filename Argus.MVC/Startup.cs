@@ -36,7 +36,7 @@ namespace Argus.MVC
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-			services.AddScoped<IAppRepository, AppRepository>();
+			services.AddScoped<IApplicationRepository, ApplicationRepository>();
 			services.AddScoped<IIssueRepository, IssueRepository>();
 		}
 
