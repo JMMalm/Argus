@@ -9,31 +9,23 @@ using System.Text;
 
 namespace Argus.Infrastructure.Repositories
 {
-	public class ApplicationRepository : IApplicationRepository
+	public class ApplicationRepository : GenericRepository, IApplicationRepository
 	{
-		private readonly IConfiguration _config;
+		//private readonly IConfiguration _config;
 
-		public ApplicationRepository(IConfiguration config)
+		public ApplicationRepository(IConfiguration config) : base(config)
 		{
-			_config = config ?? throw new ArgumentNullException(nameof(config), "Configuration cannot be null.");
+			_connection = new SqlConnection(config.GetConnectionString("Argus"));
 		}
 
 		public IEnumerable<Application> GetApplications()
 		{
-			using (var connection = new SqlConnection(_config.GetConnectionString("Argus")))
-			{
-				connection.Open();
-				return connection.Query<Application>(SqlGetApplications);
-			}
+			return QueryMultiple<Application>(SqlGetApplications);
 		}
 
 		public Application GetApplicationById(int id)
 		{
-			using (var connection = new SqlConnection(_config.GetConnectionString("Argus")))
-			{
-				connection.Open();
-				return connection.Query<Application>(SqlGetApplicationById, new { Id = id }).FirstOrDefault();
-			}
+			return Query<Application>(SqlGetApplicationById, new { Id = id });
 		}
 
 		private readonly string SqlGetApplications =
