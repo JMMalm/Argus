@@ -21,7 +21,6 @@ namespace Argus.Tests
 	public class HomeControllerTests
 	{
 		private static IConfiguration _config;
-		private static IGenericRepository<IEntity> _repository;
 		private static IApplicationService _applicationService;
 		private static IIssueService _issueService;
 
@@ -41,13 +40,15 @@ namespace Argus.Tests
 		[TestCategory("Integration")]
 		public void Index_ModelIsNotNull()
 		{
+			int expectedMinimumModelCount = 1;
 			var controller = new HomeController(_config, _applicationService, _issueService);
 
 			var result = controller.Index() as ViewResult;
+			var resultModel = (result as ViewResult).Model as IEnumerable<App>;
 
 			Assert.IsNotNull(result.Model);
 			Assert.IsFalse(string.IsNullOrWhiteSpace(controller.ViewBag.FontAwesomeKey));
-			Assert.IsInstanceOfType(result.Model, typeof(IEnumerable<App>));
+			Assert.IsTrue(resultModel.Count() >= expectedMinimumModelCount);
 		}
 
 		[TestMethod]
@@ -57,37 +58,15 @@ namespace Argus.Tests
 			DateTime date = new DateTime(2019, 6, 6);
 			int expectedModelCount = 2;
 			int expectedUrgentPriorityCount = 1;
+			Mock<IApplicationService> mockApplicationService = TestData.GetMockApplicationService();
+			Mock<IIssueService> mockIssueService = TestData.GetMockIssueService(date);
+			HomeController mockController = new HomeController(_config, mockApplicationService.Object, mockIssueService.Object);
 
-			Mock<IApplicationService> mockApplicationService = new Mock<IApplicationService>();
-			mockApplicationService
-				.Setup(m => m.GetApplications())
-				.Returns(new List<Application>
-				{
-					new Application { Id = 1, Name = "Application_1", Url = "www.Application_1.com", IsEnabled = true },
-					new Application { Id = 2, Name = "Application_2", Url = "www.Application_2.com", IsEnabled = false },
-					new Application { Id = 3, Name = "Application_3", Url = "www.Application_3.com", IsEnabled = true }
-				});
-			Mock<IIssueService> mockIssueService = new Mock<IIssueService>();
-			mockIssueService
-				.Setup(m => m.GetIssuesByDate(date, date.AddDays(1)))
-				.Returns(new List<Issue>
-				{
-					new Issue { Id = 1, ApplicationId = 1, DateSubmitted = date, Priority = Priority.Normal },
-					new Issue { Id = 2, ApplicationId = 2, DateSubmitted = date, Priority = Priority.Normal },
-					new Issue { Id = 3, ApplicationId = 3, DateSubmitted = date, Priority = Priority.Urgent }
-				});
-			Mock<HomeController> mockController = new Mock<HomeController>(_config, mockApplicationService, mockIssueService);
-			mockController
-				.Setup(m => m.Index())
-				.Returns(new ViewResult());
+			var result = mockController.Index() as ViewResult;
+			var resultModel = (result as ViewResult).Model as IEnumerable<App>;
 
-			var controller = new HomeController(_config, _applicationService, _issueService);
-			var result = controller.Index() as ViewResult;
-			var resultModel = result.Model as IEnumerable<App>;
-
-			Assert.IsNotNull(result.Model);
-			Assert.IsFalse(string.IsNullOrWhiteSpace(controller.ViewBag.FontAwesomeKey));
-			Assert.IsInstanceOfType(result.Model, typeof(IEnumerable<App>));
+			Assert.IsNotNull(result);
+			Assert.IsFalse(string.IsNullOrWhiteSpace(mockController.ViewBag.FontAwesomeKey));
 			// Ensure only enabled apps are displayed:
 			Assert.AreEqual(resultModel.Count(), expectedModelCount);
 			// Ensure Index properly vetted Urgent priority issue.

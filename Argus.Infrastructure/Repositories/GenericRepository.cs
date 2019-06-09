@@ -24,7 +24,7 @@ namespace Argus.Infrastructure.Repositories
 		{
 			_config = config
 				?? throw new ArgumentNullException(nameof(config), "Configuration cannot be null.");
-			_connectionString = _config.GetConnectionString(_connectionString)
+			_connectionString = _config.GetConnectionString(connectionString)
 				?? throw new ArgumentNullException("Connection string cannot be null.");
 
 			//_connection = new SqlConnection(_config.GetConnectionString(connectionString));
