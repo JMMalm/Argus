@@ -5,60 +5,62 @@ using Dapper;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Argus.Core.Data;
 
 namespace Argus.Infrastructure.Repositories
 {
-	public abstract class GenericRepository
+	public class GenericRepository<TEntity> : IGenericRepository<TEntity>, IDisposable
+		where TEntity : class, IEntity
 	{
 		// See more here:
 		// https://codereview.stackexchange.com/questions/177588/generic-repository-without-entity-framework
 		//
 
 		private readonly IConfiguration _config;
-		protected IDbConnection _connection;
-		private int _deadlockRetryCount = 0;
+		private readonly string _connectionString;
+		private IDbConnection _connection;
 
-		protected string ConnectionString { get; set; }
-
-		public GenericRepository(IConfiguration config)
+		public GenericRepository(IConfiguration config, string connectionString)
 		{
-			_config = config ?? throw new ArgumentNullException(nameof(config), "Configuration cannot be null.");
+			_config = config
+				?? throw new ArgumentNullException(nameof(config), "Configuration cannot be null.");
+			_connectionString = _config.GetConnectionString(_connectionString)
+				?? throw new ArgumentNullException("Connection string cannot be null.");
+
+			//_connection = new SqlConnection(_config.GetConnectionString(connectionString));
 		}
 
-		protected T Query<T>(string sqlOrProcedure, object arguments, CommandType queryType = CommandType.Text, int timeoutInSeconds = 60)
+		public void Dispose()
 		{
+			if (_connection != null)
+			{
+				_connection.Dispose();
+			}
+		}
 
-			T result = default(T);
+		public TEntity Query(string sqlOrProcedure, object arguments)
+		{
+			TEntity result = default(TEntity);
 
-			TryExecute<T>(() => result = _connection.QuerySingle<T>(sqlOrProcedure, arguments, commandType: queryType, commandTimeout: timeoutInSeconds));
+			TryExecute<TEntity>(() => result = _connection.QuerySingle<TEntity>(sqlOrProcedure, arguments, commandType: CommandType.Text, commandTimeout: 60));
 
 			return result;
 		}
 
-		protected IEnumerable<T> QueryMultiple<T>(string sqlOrProcedure, object arguments = null, CommandType queryType = CommandType.Text, int timeoutInSeconds = 60)
+		public IEnumerable<TEntity> QueryMultiple(string sqlOrProcedure, object arguments)
 		{
+			IEnumerable<TEntity> result = default(IEnumerable<TEntity>);
 
-			IEnumerable<T> result = default(IEnumerable<T>);
-
-			TryExecute<T>(() => result = _connection.Query<T>(sqlOrProcedure, arguments, commandType: queryType, commandTimeout: timeoutInSeconds));
+			TryExecute<TEntity>(() => result = _connection.Query<TEntity>(sqlOrProcedure, arguments, commandType: CommandType.Text, commandTimeout: 60));
 
 			return result;
 		}
 
-		protected T Do<T>(string sqlOrProcedure, object arguments, CommandType queryType = CommandType.Text, int timeoutInSeconds = 60)
-		{
-			T result = default(T);
-
-			TryExecute<T>(() => result = _connection.QuerySingle<T>(sqlOrProcedure, arguments, commandType: queryType, commandTimeout: timeoutInSeconds));
-
-			return result;
-		}
-
-		private void TryExecute<T>(Action action)
+		private void TryExecute<IEntity>(Action action)
 		{
 			try
 			{
-				using (_connection)
+				using (_connection = new SqlConnection(_connectionString))
 				{
 					action();
 				}

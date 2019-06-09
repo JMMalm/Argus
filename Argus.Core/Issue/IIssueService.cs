@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Argus.Core
+namespace Argus.Core.Issue
 {
-	public interface IIssueRepository
+	public interface IIssueService
 	{
 		IEnumerable<Issue> GetIssues();
 

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Argus.Core.Data;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Argus.Core
+namespace Argus.Core.Application
 {
-	public class Application
+	public class Application : IEntity
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }

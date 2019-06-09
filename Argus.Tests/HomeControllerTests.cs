@@ -1,4 +1,8 @@
 using Argus.Core;
+using Argus.Core.Application;
+using Argus.Core.Data;
+using Argus.Core.Enums;
+using Argus.Core.Issue;
 using Argus.Infrastructure.Repositories;
 using Argus.MVC.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +21,9 @@ namespace Argus.Tests
 	public class HomeControllerTests
 	{
 		private static IConfiguration _config;
-		private static IApplicationRepository _applicationRepo;
-		private static IIssueRepository _issueRepo;
+		private static IGenericRepository<IEntity> _repository;
+		private static IApplicationService _applicationService;
+		private static IIssueService _issueService;
 
 		/// <summary>
 		/// Sets up needed objects and facilitates their re-use in tests.
@@ -28,15 +33,15 @@ namespace Argus.Tests
 		public static void Initialize(TestContext context)
 		{
 			_config = TestAssistant.GetConfig();
-			_applicationRepo = new ApplicationRepository(_config);
-			_issueRepo = new IssueRepository(_config);
+			_applicationService = new ApplicationService(new GenericRepository<Application>(_config, "Argus"));
+			_issueService = new IssueService(new GenericRepository<Issue>(_config, "Argus"));
 		}
 		
 		[TestMethod]
 		[TestCategory("Integration")]
 		public void Index_ModelIsNotNull()
 		{
-			var controller = new HomeController(_config, _applicationRepo, _issueRepo);
+			var controller = new HomeController(_config, _applicationService, _issueService);
 
 			var result = controller.Index() as ViewResult;
 
@@ -52,9 +57,9 @@ namespace Argus.Tests
 			DateTime date = new DateTime(2019, 6, 6);
 			int expectedModelCount = 2;
 			int expectedUrgentPriorityCount = 1;
-			Mock<IApplicationRepository> mockApplicationRepo = new Mock<IApplicationRepository>();
-			Mock<IIssueRepository> mockIssueRepo = new Mock<IIssueRepository>();
-			mockApplicationRepo
+
+			Mock<IApplicationService> mockApplicationService = new Mock<IApplicationService>();
+			mockApplicationService
 				.Setup(m => m.GetApplications())
 				.Returns(new List<Application>
 				{
@@ -62,7 +67,8 @@ namespace Argus.Tests
 					new Application { Id = 2, Name = "Application_2", Url = "www.Application_2.com", IsEnabled = false },
 					new Application { Id = 3, Name = "Application_3", Url = "www.Application_3.com", IsEnabled = true }
 				});
-			mockIssueRepo
+			Mock<IIssueService> mockIssueService = new Mock<IIssueService>();
+			mockIssueService
 				.Setup(m => m.GetIssuesByDate(date, date.AddDays(1)))
 				.Returns(new List<Issue>
 				{
@@ -70,8 +76,12 @@ namespace Argus.Tests
 					new Issue { Id = 2, ApplicationId = 2, DateSubmitted = date, Priority = Priority.Normal },
 					new Issue { Id = 3, ApplicationId = 3, DateSubmitted = date, Priority = Priority.Urgent }
 				});
+			Mock<HomeController> mockController = new Mock<HomeController>(_config, mockApplicationService, mockIssueService);
+			mockController
+				.Setup(m => m.Index())
+				.Returns(new ViewResult());
 
-			var controller = new HomeController(_config, mockApplicationRepo.Object, mockIssueRepo.Object);
+			var controller = new HomeController(_config, _applicationService, _issueService);
 			var result = controller.Index() as ViewResult;
 			var resultModel = result.Model as IEnumerable<App>;
 

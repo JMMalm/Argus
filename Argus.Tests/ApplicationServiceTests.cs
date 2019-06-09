@@ -1,4 +1,6 @@
 ﻿using Argus.Core;
+using Argus.Core.Application;
+using Argus.Core.Data;
 using Argus.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,10 +15,11 @@ namespace Argus.Tests
 {
 	[TestClass]
 	[TestCategory("Repository")]
-	public class ApplicationRepositoryTests
+	public class ApplicationServiceTests
 	{
 		private static IConfiguration _config;
-		private static IApplicationRepository _applicationRepo;
+		private static IGenericRepository<Application> _repository;
+		private static IApplicationService _applicationService;
 
 		/// <summary>
 		/// Sets up needed objects and facilitates their re-use in tests.
@@ -26,7 +29,8 @@ namespace Argus.Tests
 		public static void Initialize(TestContext context)
 		{
 			_config = TestAssistant.GetConfig();
-			_applicationRepo = new ApplicationRepository(_config);
+			_repository = new GenericRepository<Application>(_config, "Argus");
+			_applicationService = new ApplicationService(_repository);
 		}
 
 		[TestMethod]
@@ -35,7 +39,7 @@ namespace Argus.Tests
 		{
 			var expectedCount = 1;
 
-			var result = _applicationRepo.GetApplications();
+			var result = _applicationService.GetApplications();
 
 			Assert.IsInstanceOfType(result, typeof(IEnumerable<Application>));
 			Assert.IsTrue(result.ToList().Count >= expectedCount);
@@ -46,12 +50,12 @@ namespace Argus.Tests
 		public void GetApplications_Moq_ReturnsCollection()
 		{
 			var expectedCount = 1;
-			Mock<IApplicationRepository> mockRepository = new Mock<IApplicationRepository>();
-			mockRepository
+			Mock<IApplicationService> mockService = new Mock<IApplicationService>();
+			mockService
 				.Setup(m => m.GetApplications())
 				.Returns(GetTestApplications());
 
-			var result = mockRepository.Object.GetApplications();
+			var result = mockService.Object.GetApplications();
 
 			Assert.IsInstanceOfType(result, typeof(IEnumerable<Application>));
 			Assert.IsTrue(result.ToList().Count >= expectedCount);
@@ -63,7 +67,7 @@ namespace Argus.Tests
 		{
 			var expectedApplicationId = 1;
 
-			var result = _applicationRepo.GetApplicationById(expectedApplicationId);
+			var result = _applicationService.GetById(expectedApplicationId);
 
 			Assert.IsInstanceOfType(result, typeof(Application));
 			Assert.AreEqual(expectedApplicationId, result.Id);
@@ -75,12 +79,12 @@ namespace Argus.Tests
 		{
 			var expectedApplicationId = 1;
 			Application expectedApplication = GetTestApplications().ToList()[1];
-			Mock<IApplicationRepository> mockRepository = new Mock<IApplicationRepository>();
-			mockRepository
-				.Setup(m => m.GetApplicationById(It.Is<int>(id => id == 1)))
+			Mock<IApplicationService> mockService = new Mock<IApplicationService>();
+			mockService
+				.Setup(m => m.GetById(It.Is<int>(id => id == 1)))
 				.Returns(expectedApplication);
 
-			var result = mockRepository.Object.GetApplicationById(expectedApplicationId);
+			var result = mockService.Object.GetById(expectedApplicationId);
 
 			Assert.IsInstanceOfType(result, typeof(Application));
 			Assert.AreEqual(expectedApplicationId, result.Id);
@@ -92,12 +96,12 @@ namespace Argus.Tests
 		{
 			var expectedApplicationId = 1;
 			Application expectedApplication = GetTestApplications().ToList()[1];
-			Mock<IApplicationRepository> mockRepository = new Mock<IApplicationRepository>();
-			mockRepository
-				.Setup(m => m.GetApplicationById(It.Is<int>(id => id != 1)))
+			Mock<IApplicationService> mockService = new Mock<IApplicationService>();
+			mockService
+				.Setup(m => m.GetById(It.Is<int>(id => id != 1)))
 				.Returns(value: null);
 
-			var result = mockRepository.Object.GetApplicationById(expectedApplicationId);
+			var result = mockService.Object.GetById(expectedApplicationId);
 
 			Assert.IsNull(result);
 		}

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Argus.Core
+namespace Argus.Core.Application
 {
-	public interface IApplicationRepository
+	public interface IApplicationService
 	{
+		Application GetById(int id);
 		IEnumerable<Application> GetApplications();
-
-		Application GetApplicationById(int id);
 	}
 }

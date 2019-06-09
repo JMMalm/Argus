@@ -1,4 +1,6 @@
 ﻿using Argus.Core;
+using Argus.Core.Data;
+using Argus.Core.Issue;
 using Argus.Infrastructure;
 using Argus.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
@@ -12,10 +14,11 @@ namespace Argus.Tests
 {
 	[TestClass]
 	[TestCategory("Repository")]
-	public class IssueRepositoryTests
+	public class IssueServiceTests
 	{
 		private static IConfiguration _config;
-		private static IIssueRepository _issueRepo;
+		private static IGenericRepository<Issue> _repository;
+		private static IIssueService _issueService;
 
 		/// <summary>
 		/// Sets up needed objects and facilitates their re-use in tests.
@@ -25,7 +28,8 @@ namespace Argus.Tests
 		public static void Initialize(TestContext context)
 		{
 			_config = TestAssistant.GetConfig();
-			_issueRepo = new IssueRepository(_config);
+			_repository = new GenericRepository<Issue>(_config, "Argus");
+			_issueService = new IssueService(_repository);
 		}
 
 		[TestMethod]
@@ -34,7 +38,7 @@ namespace Argus.Tests
 		{
 			var expectedCount = 1;
 
-			var result = _issueRepo.GetIssues();
+			var result = _issueService.GetIssues();
 
 			Assert.IsInstanceOfType(result, typeof(IEnumerable<Issue>));
 			Assert.IsTrue(result.ToList().Count >= expectedCount);
@@ -46,7 +50,7 @@ namespace Argus.Tests
 		{
 			var expectedId = 5;
 
-			Issue result = _issueRepo.GetIssueById(expectedId);
+			Issue result = _issueService.GetIssueById(expectedId);
 
 			Assert.AreEqual(expectedId, result.Id);
 		}
@@ -58,7 +62,7 @@ namespace Argus.Tests
 			var expectedStartDate = new DateTime(2019, 06, 06);
 			var expectedEndDate = expectedStartDate.AddDays(1);
 
-			var result = _issueRepo.GetIssuesByDate(expectedStartDate, expectedEndDate);
+			var result = _issueService.GetIssuesByDate(expectedStartDate, expectedEndDate);
 
 			Assert.IsInstanceOfType(result, typeof(IEnumerable<Issue>));
 			result.ToList().ForEach(i =>

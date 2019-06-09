@@ -1,4 +1,7 @@
 ﻿using Argus.Core;
+using Argus.Core.Application;
+using Argus.Core.Enums;
+using Argus.Core.Issue;
 using Argus.Infrastructure.Repositories;
 using Argus.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +16,8 @@ namespace Argus.MVC.Controllers
 	public class HomeController : Controller
 	{
 		private readonly IConfiguration _config;
-		private readonly IApplicationRepository _applicationRepo;
-		private readonly IIssueRepository _issueRepository;
+		private readonly IApplicationService _applicationService;
+		private readonly IIssueService _issueService;
 
 		/// <summary>
 		/// Default constructor.
@@ -25,14 +28,14 @@ namespace Argus.MVC.Controllers
 		/// <remarks>
 		///		The repositories are registered as services in Startup.cs, so that's where they come from.
 		/// </remarks>
-		public HomeController(IConfiguration config, IApplicationRepository applicationRepo, IIssueRepository issueRepository)
+		public HomeController(IConfiguration config, IApplicationService applicationService, IIssueService issueService)
 		{
 			_config = config ??
-				throw new ArgumentNullException(nameof(config), "Configuration cannot be null.");
-			_applicationRepo = applicationRepo ??
-				throw new ArgumentNullException(nameof(applicationRepo), "Repository cannot be null.");
-			_issueRepository = issueRepository ??
-				throw new ArgumentNullException(nameof(issueRepository), "Repository cannot be null.");
+				throw new ArgumentNullException("Configuration cannot be null.");
+			_applicationService = applicationService ??
+				throw new ArgumentNullException(nameof(applicationService), "Application Service cannot be null.");
+			_issueService = issueService ??
+				throw new ArgumentNullException(nameof(issueService), "Issue Service cannot be null.");
 		}
 
 		public IActionResult Index()
@@ -59,11 +62,11 @@ namespace Argus.MVC.Controllers
 
 		private IEnumerable<App> GetApplicationIssues(DateTime date)
 		{
-			var applications = _applicationRepo.GetApplications()?
+			var applications = _applicationService.GetApplications()?
 				.Where(a => a.IsEnabled == true)
 				.OrderBy(a => a.Id);
 
-			var issues = _issueRepository.GetIssuesByDate(date, date.AddDays(1));
+			var issues = _issueService.GetIssuesByDate(date, date.AddDays(1));
 
 			List<App> appsModel = new List<App>();
 			foreach(var application in applications)

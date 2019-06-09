@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Argus.Infrastructure.Repositories;
-using Argus.Core;
+using Argus.Core.Application;
+using Argus.Core.Data;
+using Argus.Core.Issue;
 
 namespace Argus.MVC
 {
@@ -36,8 +38,11 @@ namespace Argus.MVC
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-			services.AddScoped<IApplicationRepository, ApplicationRepository>();
-			services.AddScoped<IIssueRepository, IssueRepository>();
+			services.AddScoped<IGenericRepository<Application>, GenericRepository<Application>>();
+			services.AddScoped<IGenericRepository<Issue>, GenericRepository<Issue>>();
+
+			services.AddScoped<IApplicationService, ApplicationService>();
+			services.AddScoped<IIssueService, IssueService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
