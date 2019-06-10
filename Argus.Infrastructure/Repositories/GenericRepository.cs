@@ -20,11 +20,11 @@ namespace Argus.Infrastructure.Repositories
 		private readonly string _connectionString;
 		private IDbConnection _connection;
 
-		public GenericRepository(IConfiguration config, string connectionString)
+		public GenericRepository(IConfiguration config)
 		{
 			_config = config
 				?? throw new ArgumentNullException(nameof(config), "Configuration cannot be null.");
-			_connectionString = _config.GetConnectionString(connectionString)
+			_connectionString = _config.GetConnectionString("Argus")
 				?? throw new ArgumentNullException("Connection string cannot be null.");
 
 			//_connection = new SqlConnection(_config.GetConnectionString(connectionString));

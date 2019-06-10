@@ -60,7 +60,7 @@ namespace Argus.MVC.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
-		private IEnumerable<App> GetApplicationIssues(DateTime date)
+		private IEnumerable<ApplicationModel> GetApplicationIssues(DateTime date)
 		{
 			var applications = _applicationService.GetApplications()?
 				.Where(a => a.IsEnabled == true)
@@ -68,16 +68,19 @@ namespace Argus.MVC.Controllers
 
 			var issues = _issueService.GetIssuesByDate(date, date.AddDays(1));
 
-			List<App> appsModel = new List<App>();
+			List<ApplicationModel> appsModel = new List<ApplicationModel>();
 			foreach(var application in applications)
 			{
-				appsModel.Add(new App
+				appsModel.Add(new ApplicationModel
 				{
+					Id = application.Id,
 					Name = application.Name,
 					IssueCount = issues.Where(i => i.ApplicationId == application.Id).Count(),
 					HasUrgentPriority = issues.Any(
 						i => i.ApplicationId == application.Id
 						&& i.Priority == Priority.Urgent),
+					ProductOwnerName = application.ProductOwnerName,
+					TeamName = application.TeamName,
 					Url = application.Url
 				});
 			}

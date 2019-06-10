@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Argus.Core.App>
+﻿@model IEnumerable<Argus.MVC.Models.ApplicationModel>
 
 @{
 	ViewData["Title"] = "Home";
@@ -20,8 +20,13 @@
 				<i class="fa fa-eye-slash fa-2 fa-clickable float-right" aria-hidden="true"></i>
 			</h5>
 			<div class="card-body">
-				<h5 class="card-title">Subtitle</h5>
-				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+				<p>
+					<span class="font-weight-bold">Product Owner: </span>
+					Beth Smith
+					<br />
+					<span class="font-weight-bold">Team: </span>
+					Team_5
+				</p>
 				<button type="button" class="btn btn-block bg-success text-white rounded-pill">
 					Reports <span class="badge badge-light">0</span>
 				</button>
@@ -45,15 +50,20 @@
 			cssTextColor = "text-dark";
 		}
 
-		<div class="col-sm-4">
+		<div class="col-sm-4" data-id="@app.Id">
 			<div class="card mb-3">
 				<h5 class="card-header @cssTextColor @cssClassByIssueCount">
 					@app.Name
 				<i class="fa fa-eye-slash fa-2 fa-clickable float-right" aria-hidden="true"></i>
 			</h5>
 			<div class="card-body">
-				<h5 class="card-title">Subtitle</h5>
-				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+				<p class="card-text">
+					<span class="font-weight-bold">Product Owner: </span>
+					@app.ProductOwnerName
+					<br />
+					<span class="font-weight-bold">Team: </span>
+					@app.TeamName
+				</p>
 				<button type="button" class="btn btn-block @cssClassByIssueCount @cssTextColor rounded-pill">
 					Reports <span class="badge badge-light">@app.IssueCount</span>
 				</button>

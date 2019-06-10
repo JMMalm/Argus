@@ -5,6 +5,7 @@ using Argus.Core.Enums;
 using Argus.Core.Issue;
 using Argus.Infrastructure.Repositories;
 using Argus.MVC.Controllers;
+using Argus.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -32,8 +33,8 @@ namespace Argus.Tests
 		public static void Initialize(TestContext context)
 		{
 			_config = TestAssistant.GetConfig();
-			_applicationService = new ApplicationService(new GenericRepository<Application>(_config, "Argus"));
-			_issueService = new IssueService(new GenericRepository<Issue>(_config, "Argus"));
+			_applicationService = new ApplicationService(new GenericRepository<Application>(_config));
+			_issueService = new IssueService(new GenericRepository<Issue>(_config));
 		}
 		
 		[TestMethod]
@@ -44,7 +45,7 @@ namespace Argus.Tests
 			var controller = new HomeController(_config, _applicationService, _issueService);
 
 			var result = controller.Index() as ViewResult;
-			var resultModel = (result as ViewResult).Model as IEnumerable<App>;
+			var resultModel = (result as ViewResult).Model as IEnumerable<ApplicationModel>;
 
 			Assert.IsNotNull(result.Model);
 			Assert.IsFalse(string.IsNullOrWhiteSpace(controller.ViewBag.FontAwesomeKey));
@@ -63,7 +64,7 @@ namespace Argus.Tests
 			HomeController mockController = new HomeController(_config, mockApplicationService.Object, mockIssueService.Object);
 
 			var result = mockController.Index() as ViewResult;
-			var resultModel = (result as ViewResult).Model as IEnumerable<App>;
+			var resultModel = (result as ViewResult).Model as IEnumerable<ApplicationModel>;
 
 			Assert.IsNotNull(result);
 			Assert.IsFalse(string.IsNullOrWhiteSpace(mockController.ViewBag.FontAwesomeKey));

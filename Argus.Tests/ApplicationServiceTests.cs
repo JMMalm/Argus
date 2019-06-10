@@ -29,7 +29,7 @@ namespace Argus.Tests
 		public static void Initialize(TestContext context)
 		{
 			_config = TestAssistant.GetConfig();
-			_repository = new GenericRepository<Application>(_config, "Argus");
+			_repository = new GenericRepository<Application>(_config);
 			_applicationService = new ApplicationService(_repository);
 		}
 
