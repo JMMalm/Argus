@@ -60,6 +60,14 @@ namespace Argus.MVC.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
+		[HttpGet]
+		public JsonResult GetApplicationUpdates(int[] applicationIds)
+		{
+			var applications = GetApplicationIssues(new DateTime(2019, 6, 6))
+				.Where(a => applicationIds.Contains(a.Id));
+			return Json(applications);
+		}
+
 		private IEnumerable<ApplicationModel> GetApplicationIssues(DateTime date)
 		{
 			var applications = _applicationService.GetApplications()?

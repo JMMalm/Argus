@@ -29,12 +29,12 @@ $(document).ready(function () {
 
 	$('#UnhideCheckbox').change(function () {
 		if ($('#UnhideCheckbox').prop('checked')) {
-			$('div.col-sm-4[data-hidden="true"')
+			$('div.col-sm-4[data-hidden="true"]')
 				.attr('data-hidden', false)
 				.fadeIn();
 		}
 		else {
-			$('div.col-sm-4[data-hidden="false"')
+			$('div.col-sm-4[data-hidden="false"]')
 				.attr('data-hidden', true)
 				.fadeOut();
 		}
@@ -63,4 +63,21 @@ function autoScroll() {
 			scrollTop: $(document).height()
 		}, 16000);
 	}, 2000); //call every 2000 miliseconds
+}
+
+function GetApplicationUpdates() {
+	// data-id
+	var ids = $('div.col-sm-4:not([data-hidden="true"').map(function () {
+		return $(this).attr('data-id');
+	});
+	console.log(ids);
+
+	$.ajax({
+		type: 'GET',
+		data: ids,
+		url: '/Home/GetApplicationUpdates',
+		success: function (msg) {
+			console.log(msg);
+		}
+	});
 }
