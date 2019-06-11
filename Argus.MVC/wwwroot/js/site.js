@@ -65,7 +65,7 @@ function autoScroll() {
 	}, 2000); //call every 2000 miliseconds
 }
 
-function GetApplicationUpdates() {
+function GetApplicationUpdates(isTest = false) {
 	// data-id
 	var ids = [];
 	$('div.col-sm-4:not([data-hidden="true"').each(function () {
@@ -78,12 +78,43 @@ function GetApplicationUpdates() {
 	$.ajax({
 		type: 'GET',
 		contentType: 'application/json',
-		data: { 'applicationIds': ids },
+		data: { 'applicationIds': ids, 'isTest': isTest },
 		dataType: "json",
 		traditional: true,
 		url: '/Home/GetApplicationUpdates',
 		success: function (data) {
-			console.log(JSON.stringify(data));
+			$.each(data, function (index, data) {
+				updateApplication(data);
+			});
 		}
 	});
+}
+
+function updateApplication(application) {
+	if (!application) {
+		console.warn('Null application passed for update.');
+	};
+
+	var cardColor = 'bg-success';
+	var cardTextColor = 'text-white';
+	var $applicationCard = $('div.col-sm-4[data-id=' + application.id + ']');
+	$applicationCard.find('button > span').text(application.issueCount);
+
+	if (application.hasUrgentPriority || application.issueCount >= 3) {
+		cardColor = 'bg-danger';
+	}
+	else if (!application.hasUrgentPriority && application.issueCount != 0) {
+		cardColor = 'bg-warning';
+		cardTextColor = 'text-dark';
+	}
+
+	$applicationCard
+		.find("[class*='bg-']")
+		.removeClass('bg-success bg-warning bg-danger text-light text-dark')
+		.addClass('' + cardColor + ' ' + cardTextColor + '');
+
+	// Not quite working right:
+	//$applicationCard.('h5').removeClass(function (index, css) {
+	//	return (css.match(/(^|\s)bg-\S+/g) || []).join(' ');
+	//});
 }

@@ -71,7 +71,8 @@ namespace Argus.MVC.Controllers
 			if (isTest && applications?.Count() >= 2)
 			{
 				applications[0].IssueCount = 3;
-				applications[1].HasUrgentPriority = true;
+				applications[1].IssueCount = 2;
+				applications[2].HasUrgentPriority = !applications[2].HasUrgentPriority;
 			}
 
 			return Json(applications);
