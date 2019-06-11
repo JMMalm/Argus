@@ -61,10 +61,19 @@ namespace Argus.MVC.Controllers
 		}
 
 		[HttpGet]
-		public JsonResult GetApplicationUpdates(int[] applicationIds)
+		public JsonResult GetApplicationUpdates(int[] applicationIds, bool isTest)
 		{
 			var applications = GetApplicationIssues(new DateTime(2019, 6, 6))
-				.Where(a => applicationIds.Contains(a.Id));
+				.Where(a => applicationIds.Contains(a.Id))
+				.ToList();
+
+			//Modify some data to test client-side updating, because we have limited data to work with.
+			if (isTest && applications?.Count() >= 2)
+			{
+				applications[0].IssueCount = 3;
+				applications[1].HasUrgentPriority = true;
+			}
+
 			return Json(applications);
 		}
 

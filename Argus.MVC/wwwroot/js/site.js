@@ -67,17 +67,23 @@ function autoScroll() {
 
 function GetApplicationUpdates() {
 	// data-id
-	var ids = $('div.col-sm-4:not([data-hidden="true"').map(function () {
-		return $(this).attr('data-id');
+	var ids = [];
+	$('div.col-sm-4:not([data-hidden="true"').each(function () {
+		var id = $(this).attr('data-id');
+		if (id) {
+			ids.push(id);
+		}
 	});
-	console.log(ids);
 
 	$.ajax({
 		type: 'GET',
-		data: ids,
+		contentType: 'application/json',
+		data: { 'applicationIds': ids },
+		dataType: "json",
+		traditional: true,
 		url: '/Home/GetApplicationUpdates',
-		success: function (msg) {
-			console.log(msg);
+		success: function (data) {
+			console.log(JSON.stringify(data));
 		}
 	});
 }
