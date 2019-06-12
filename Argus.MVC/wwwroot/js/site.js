@@ -18,7 +18,7 @@ $(document).ready(function () {
 
 	$('#AutoRefreshCheckbox').change(function () {
 		if ($('#AutoRefreshCheckbox').prop('checked')) {
-			refreshInterval = setInterval(refreshData, 60000); // 60 seconds
+			refreshInterval = setInterval(getApplicationUpdates, 120000); // 120 seconds
 		}
 		else {
 			clearInterval(refreshInterval);
@@ -46,11 +46,6 @@ $(document).ready(function () {
 	});
 })
 
-function refreshData() {
-	// Place-holder functionality for testing.
-	alert('Refresh called!');
-}
-
 function autoScroll() {
 	// Time to scroll to bottom
 	$('html, body').animate({
@@ -65,8 +60,9 @@ function autoScroll() {
 	}, 2000); //call every 2000 miliseconds
 }
 
-function GetApplicationUpdates(isTest = false) {
-	// data-id
+function getApplicationUpdates(isTest = false) {
+	$('#myModal').modal('show');
+
 	var ids = [];
 	$('div.col-sm-4:not([data-hidden="true"').each(function () {
 		var id = $(this).attr('data-id');
@@ -86,6 +82,14 @@ function GetApplicationUpdates(isTest = false) {
 			$.each(data, function (index, data) {
 				updateApplication(data);
 			});
+		},
+		error: function (xhr, error) {
+			console.error(xhr.status + ': There was a problem on the server.');
+		},
+		complete: function () {
+			setTimeout(function () {
+				$('#myModal').modal('hide');
+			}, 1000);
 		}
 	});
 }
@@ -110,11 +114,7 @@ function updateApplication(application) {
 
 	$applicationCard
 		.find("[class*='bg-']")
+		.fadeIn()
 		.removeClass('bg-success bg-warning bg-danger text-light text-dark')
 		.addClass('' + cardColor + ' ' + cardTextColor + '');
-
-	// Not quite working right:
-	//$applicationCard.('h5').removeClass(function (index, css) {
-	//	return (css.match(/(^|\s)bg-\S+/g) || []).join(' ');
-	//});
 }

@@ -54,22 +54,50 @@
 			<div class="card mb-3">
 				<h5 class="card-header @cssTextColor @cssClassByIssueCount">
 					@app.Name
-				<i class="fa fa-eye-slash fa-2 fa-clickable float-right" aria-hidden="true"></i>
-			</h5>
-			<div class="card-body">
-				<p class="card-text">
-					<span class="font-weight-bold">Product Owner: </span>
-					@app.ProductOwnerName
-					<br />
-					<span class="font-weight-bold">Team: </span>
-					@app.TeamName
-				</p>
-				<button type="button" class="btn btn-block @cssClassByIssueCount @cssTextColor rounded-pill">
-					Reports <span class="badge badge-light">@app.IssueCount</span>
-				</button>
-				<a href="#" class="btn btn-block @cssClassByIssueCount @cssTextColor rounded-pill">Report a problem</a>
+					<i class="fa fa-eye-slash fa-2 fa-clickable float-right" aria-hidden="true"></i>
+				</h5>
+				<div class="card-body">
+					<p class="card-text">
+						<span class="font-weight-bold">Product Owner: </span>
+						@app.ProductOwnerName
+						<br />
+						<span class="font-weight-bold">Team: </span>
+						@app.TeamName
+					</p>
+					<button type="button" class="btn btn-block @cssClassByIssueCount @cssTextColor rounded-pill">
+						Reports <span class="badge badge-light">@app.IssueCount</span>
+					</button>
+					<a href="#" class="btn btn-block @cssClassByIssueCount @cssTextColor rounded-pill">Report a problem</a>
+				</div>
 			</div>
 		</div>
+	}
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal" data-backdrop="static">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header bg-primary text-light">
+				<h4 class="modal-title">Loading</h4>
+				<button type="button" class="close text-light" data-dismiss="modal">&times;</button>
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="d-flex align-items-center">
+					<div class="spinner-border text-primary" role="status" aria-hidden="true"></div>
+					<strong class="m-3">Retrieving application updates...</strong>
+				</div>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				@*<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>*@
+			</div>
+
+		</div>
 	</div>
-}
 </div>

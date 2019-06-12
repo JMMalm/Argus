@@ -1,8 +1,6 @@
-﻿using Argus.Core;
-using Argus.Core.Application;
+﻿using Argus.Core.Application;
 using Argus.Core.Enums;
 using Argus.Core.Issue;
-using Argus.Infrastructure.Repositories;
 using Argus.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -61,21 +59,29 @@ namespace Argus.MVC.Controllers
 		}
 
 		[HttpGet]
-		public JsonResult GetApplicationUpdates(int[] applicationIds, bool isTest)
+		public IActionResult GetApplicationUpdates(int[] applicationIds, bool isTest)
 		{
-			var applications = GetApplicationIssues(new DateTime(2019, 6, 6))
-				.Where(a => applicationIds.Contains(a.Id))
-				.ToList();
-
-			//Modify some data to test client-side updating, because we have limited data to work with.
-			if (isTest && applications?.Count() >= 2)
+			try
 			{
-				applications[0].IssueCount = 3;
-				applications[1].IssueCount = 2;
-				applications[2].HasUrgentPriority = !applications[2].HasUrgentPriority;
-			}
+				var applications = GetApplicationIssues(new DateTime(2019, 6, 6))
+						.Where(a => applicationIds.Contains(a.Id))
+						.ToList();
 
-			return Json(applications);
+				//Modify some data to test client-side updating, because we have limited data to work with.
+				if (isTest && applications?.Count() >= 2)
+				{
+					applications[0].IssueCount = 3;
+					applications[1].IssueCount = 2;
+					applications[2].HasUrgentPriority = !applications[2].HasUrgentPriority;
+				}
+
+				return Json(applications);
+			}
+			catch (Exception ex)
+			{
+				// TODO: Add error logging.
+				return Error();
+			}
 		}
 
 		private IEnumerable<ApplicationModel> GetApplicationIssues(DateTime date)
