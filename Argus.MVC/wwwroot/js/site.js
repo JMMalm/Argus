@@ -87,6 +87,7 @@ function getApplicationUpdates(isTest = false) {
 			console.error(xhr.status + ': There was a problem on the server.');
 		},
 		complete: function () {
+			$('#StatusDateTime').text(new Date($.now()).toLocaleString());
 			setTimeout(function () {
 				$('#myModal').modal('hide');
 			}, 1000);
