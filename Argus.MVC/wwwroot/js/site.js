@@ -139,5 +139,5 @@ function showReportIssueModal() {
 
 function isAfterHours() {
 	var localHour = new Date($.now()).getHours();
-	return (localHour >= 18 || hour < 8);
+	return (localHour >= 18 || localHour < 8);
 }
