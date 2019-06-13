@@ -67,25 +67,25 @@
 					<button type="button" class="btn btn-block @cssClassByIssueCount @cssTextColor rounded-pill">
 						Reports <span class="badge badge-light">@app.IssueCount</span>
 					</button>
-					<a href="#" class="btn btn-block @cssClassByIssueCount @cssTextColor rounded-pill">Report a problem</a>
+					<button type="button" class="btn btn-block @cssClassByIssueCount @cssTextColor rounded-pill" onclick="showReportIssueModal()">
+						Report a problem
+					</button>
 				</div>
 			</div>
 		</div>
 	}
 </div>
 
-<!-- The Modal -->
-<div class="modal fade" id="myModal" data-backdrop="static">
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" data-backdrop="static">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 
-			<!-- Modal Header -->
 			<div class="modal-header bg-primary text-light">
 				<h4 class="modal-title">Loading</h4>
 				<button type="button" class="close text-light" data-dismiss="modal">&times;</button>
 			</div>
 
-			<!-- Modal body -->
 			<div class="modal-body">
 				<div class="d-flex align-items-center">
 					<div class="spinner-border text-primary" role="status" aria-hidden="true"></div>
@@ -93,9 +93,43 @@
 				</div>
 			</div>
 
-			<!-- Modal footer -->
 			<div class="modal-footer">
-				@*<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>*@
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<!-- Report-An-Issue Modal -->
+<div class="modal fade" id="reportIssueModal">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+
+			<div class="modal-header bg-primary text-light">
+				<h4 class="modal-title">Report Issue</h4>
+				<button type="button" class="close text-light" data-dismiss="modal">&times;</button>
+			</div>
+
+			<div class="modal-body">
+				<div class="align-items-center">
+					<p>
+						Click below to go to <strong>[Issue-Submission Site]</strong>
+						in a new browser tab and submit your issue.
+					</p>
+					<p>
+						<strong>Argus</strong> looks at a few things when reporting data. To maximize its effectiveness,
+						please <em>tag</em> your issue with the appropriate application keyword(s) and/or include the
+						the application's name in the title.
+					</p>
+					<p>
+						<img src="" alt="Image showing how to tag keywords" height="42" width="42">
+					</p>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<a href="@ViewBag.IssueSubmissionUrl" target="_blank" class="btn btn-primary rounded-pill">Go to [Issue-Submission Site]!</a>
+				<button type="button" class="btn btn-secondary rounded-pill" data-dismiss="modal">Cancel</button>
 			</div>
 
 		</div>

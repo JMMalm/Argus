@@ -40,6 +40,7 @@ namespace Argus.MVC.Controllers
 		{
 			// Get the Font Awesome CDN key from secrets.json.
 			ViewBag.FontAwesomeKey = _config.GetValue<string>("fontawesome-cdn-key");
+			ViewBag.IssueSubmissionUrl = _config.GetValue<string>("IssueSubmissionUrl");
 
 			// Hard-coded date because we'll only have a subset of data for a particular date.
 			var appsModel = GetApplicationIssues(new DateTime(2019, 6, 6));

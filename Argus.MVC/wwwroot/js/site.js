@@ -61,7 +61,7 @@ function autoScroll() {
 }
 
 function getApplicationUpdates(isTest = false) {
-	$('#myModal').modal('show');
+	$('#loadingModal').modal('show');
 
 	var ids = [];
 	$('div.col-sm-4:not([data-hidden="true"').each(function () {
@@ -89,7 +89,7 @@ function getApplicationUpdates(isTest = false) {
 		complete: function () {
 			$('#StatusDateTime').text(new Date($.now()).toLocaleString());
 			setTimeout(function () {
-				$('#myModal').modal('hide');
+				$('#loadingModal').modal('hide');
 			}, 1000);
 		}
 	});
@@ -118,4 +118,8 @@ function updateApplication(application) {
 		.fadeIn()
 		.removeClass('bg-success bg-warning bg-danger text-light text-dark')
 		.addClass('' + cardColor + ' ' + cardTextColor + '');
+}
+
+function showReportIssueModal() {
+	$('#reportIssueModal').modal('show');
 }
