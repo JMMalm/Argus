@@ -3,6 +3,10 @@ var scrollInterval = null;
 
 $(document).ready(function () {
 
+	if (isAfterHours()) {
+		$('#AfterHoursAlert').fadeIn();
+	}
+
 	// "e.StopPropagation" will keep the dropdown open after clicking either checkbox.
 	// Click outside the dropdown to close it.
 	$('#AutoScrollCheckbox').change(function () {
@@ -61,6 +65,15 @@ function autoScroll() {
 }
 
 function getApplicationUpdates(isTest = false) {
+
+	if (isAfterHours()) {
+		$('#AfterHoursAlert').fadeIn();
+		return;
+	}
+	else {
+		$('#AfterHoursAlert').fadeOut();
+	}
+
 	$('#loadingModal').modal('show');
 
 	var ids = [];
@@ -122,4 +135,9 @@ function updateApplication(application) {
 
 function showReportIssueModal() {
 	$('#reportIssueModal').modal('show');
+}
+
+function isAfterHours() {
+	var localHour = new Date($.now()).getHours();
+	return (localHour >= 18 || hour < 8);
 }
