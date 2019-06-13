@@ -48,7 +48,7 @@ namespace Argus.MVC.Controllers
 			return View(appsModel);
 		}
 
-		public IActionResult Privacy()
+		public IActionResult About()
 		{
 			return View();
 		}

@@ -1,0 +1,66 @@
+﻿
+@{
+	ViewData["Title"] = "About";
+}
+
+<h1>About</h1>
+<div>
+	<strong>Argus</strong> is an application-monitoring website that periodically checks
+	<strong>[Issue-Submission Site]</strong> for open issues for application or website and
+	displays any updates in a sleek and mobile-friendly user-interface. It also provides
+	links to [Issue-Submission Site] so you can quickly report issues.
+</div>
+<br />
+
+<h2>Features</h2>
+<div>
+	<ul>
+		<li>
+			<strong>Color-Coded UI</strong> - Application cards are color-coding depending on their issue count and urgency.
+		</li>
+		<li>
+			<strong>Toggleable Application Cards</strong> - You can hide (and later show) applications irrelevant to you or your team.
+		</li>
+		<li>
+			<strong>Auto-Scroll</strong> - You can select to automatically scroll down the page. (and back up).
+		</li>
+		<li>
+			<strong>Auto-Refresh</strong> - Select this option to have the page periodically refresh its data.
+		</li>
+		<li>
+			<strong>Responsive Design</strong> - The website maintains function and style on both desktop and mobile devices.
+		</li>
+	</ul>
+</div>
+<br />
+
+<h2>The Name</h2>
+<div>
+	<strong>Argus</strong> is named after <em>Argus Panoptes</em>, the many-eyed giant of Greek mythology,
+	from whom the phrase <q cite="https://en.wikipedia.org/wiki/Argus_Panoptes">the eyes of Argus</q> derives.
+</div>
+<br />
+
+<h2>Technical</h2>
+<div>
+	<strong>Argus</strong> is built with the following:
+	<ul>
+		<li>ASP.NET Core MVC 2.2</li>
+		<li>Bootstrap 4</li>
+		<li>C#</li>
+		<li>Dapper 1.60</li>
+		<li>jQuery 3.3.1</li>
+		<li>Moq 4.11</li>
+	</ul>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+	$(document).ready(function () {
+		$('.nav-item.dropdown').toggle();
+	});
+
+	$(window).on('beforeunload', function () {
+		$('.nav-item.dropdown').toggle();
+	});
+</script>
