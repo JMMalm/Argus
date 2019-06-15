@@ -6,6 +6,9 @@ $(document).ready(function () {
 	if (isAfterHours()) {
 		$('#AfterHoursAlert').fadeIn();
 	}
+	else {
+		$('#AfterHoursAlert').fadeOut();
+	}
 
 	// "e.StopPropagation" will keep the dropdown open after clicking either checkbox.
 	// Click outside the dropdown to close it.
