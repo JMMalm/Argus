@@ -66,6 +66,9 @@ namespace Argus.Tests
 			var result = mockController.Index() as ViewResult;
 			var resultModel = (result as ViewResult).Model as IEnumerable<ApplicationModel>;
 
+			mockApplicationService.Verify(a => a.GetApplications(), Times.Once);
+			mockIssueService.Verify(i => i.GetIssuesByDate(It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Once);
+
 			Assert.IsNotNull(result);
 			Assert.IsFalse(string.IsNullOrWhiteSpace(mockController.ViewBag.FontAwesomeKey));
 			// Ensure only enabled apps are displayed:

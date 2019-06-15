@@ -1,6 +1,7 @@
 ﻿using Argus.Core.Application;
 using Argus.Core.Enums;
 using Argus.Core.Issue;
+using Argus.Infrastructure.Logging;
 using Argus.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -38,12 +39,22 @@ namespace Argus.MVC.Controllers
 
 		public IActionResult Index()
 		{
-			// Get the Font Awesome CDN key from secrets.json.
-			ViewBag.FontAwesomeKey = _config.GetValue<string>("fontawesome-cdn-key");
-			ViewBag.IssueSubmissionUrl = _config.GetValue<string>("IssueSubmissionUrl");
+			IEnumerable<ApplicationModel> appsModel = null;
 
-			// Hard-coded date because we'll only have a subset of data for a particular date.
-			var appsModel = GetApplicationIssues(new DateTime(2019, 6, 6));
+			try
+			{
+				// Get the Font Awesome CDN key from secrets.json.
+				ViewBag.FontAwesomeKey = _config.GetValue<string>("fontawesome-cdn-key");
+				ViewBag.IssueSubmissionUrl = _config.GetValue<string>("IssueSubmissionUrl");
+
+				// Hard-coded date because we'll only have a subset of data for a particular date.
+				appsModel = GetApplicationIssues(new DateTime(2019, 6, 6));
+			}
+			catch (Exception ex)
+			{
+				StaticLogger.Write(ex);
+				return Error();
+			}
 
 			return View(appsModel);
 		}
@@ -80,7 +91,7 @@ namespace Argus.MVC.Controllers
 			}
 			catch (Exception ex)
 			{
-				// TODO: Add error logging.
+				StaticLogger.Write(ex);
 				return Error();
 			}
 		}
