@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argus.Core", "Argus.Core\Ar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argus.Infrastructure", "Argus.Infrastructure\Argus.Infrastructure.csproj", "{0332F387-1419-4BBD-93CF-7B6D00D34D96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argus.Tests", "Argus.Tests\Argus.Tests.csproj", "{21BB1F88-0C6B-49E3-AD50-9B861D350606}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argus.Tests", "Argus.Tests\Argus.Tests.csproj", "{21BB1F88-0C6B-49E3-AD50-9B861D350606}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argus.ConsoleApp", "Argus.ConsoleApp\Argus.ConsoleApp.csproj", "{9A540216-8A26-45F2-9C30-CC8D74A299FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{21BB1F88-0C6B-49E3-AD50-9B861D350606}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21BB1F88-0C6B-49E3-AD50-9B861D350606}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21BB1F88-0C6B-49E3-AD50-9B861D350606}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A540216-8A26-45F2-9C30-CC8D74A299FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A540216-8A26-45F2-9C30-CC8D74A299FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A540216-8A26-45F2-9C30-CC8D74A299FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A540216-8A26-45F2-9C30-CC8D74A299FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
