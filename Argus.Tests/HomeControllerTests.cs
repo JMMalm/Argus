@@ -8,6 +8,7 @@ using Argus.MVC.Controllers;
 using Argus.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -24,6 +25,7 @@ namespace Argus.Tests
 		private static IConfiguration _config;
 		private static IApplicationService _applicationService;
 		private static IIssueService _issueService;
+		private static Mock<ILogger<HomeController>> _logger;
 
 		/// <summary>
 		/// Sets up needed objects and facilitates their re-use in tests.
@@ -35,6 +37,7 @@ namespace Argus.Tests
 			_config = TestAssistant.GetConfig();
 			_applicationService = new ApplicationService(new GenericRepository<Application>(_config));
 			_issueService = new IssueService(new GenericRepository<Issue>(_config));
+			_logger = new Mock<ILogger<HomeController>>();
 		}
 		
 		[TestMethod]
@@ -42,7 +45,7 @@ namespace Argus.Tests
 		public void Index_ModelIsNotNull()
 		{
 			int expectedMinimumModelCount = 1;
-			var controller = new HomeController(_config, _applicationService, _issueService);
+			var controller = new HomeController(_config, _applicationService, _issueService, _logger.Object);
 
 			var result = controller.Index() as ViewResult;
 			var resultModel = (result as ViewResult).Model as IEnumerable<ApplicationModel>;
@@ -61,7 +64,7 @@ namespace Argus.Tests
 			int expectedUrgentPriorityCount = 1;
 			Mock<IApplicationService> mockApplicationService = TestData.GetMockApplicationService();
 			Mock<IIssueService> mockIssueService = TestData.GetMockIssueService(date);
-			HomeController mockController = new HomeController(_config, mockApplicationService.Object, mockIssueService.Object);
+			HomeController mockController = new HomeController(_config, mockApplicationService.Object, mockIssueService.Object, _logger.Object);
 
 			var result = mockController.Index() as ViewResult;
 			var resultModel = (result as ViewResult).Model as IEnumerable<ApplicationModel>;

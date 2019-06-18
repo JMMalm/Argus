@@ -26,6 +26,14 @@ namespace Argus.MVC
 						.AddJsonFile("secrets.json", optional: false, reloadOnChange: true)
 						.Build();
 				})
+				.ConfigureLogging((hostingContext, logging) =>
+				{
+					logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+					logging.ClearProviders();
+					logging.AddConsole();
+					// logging.AddConsole(options => options.IncludeScopes = true); // Allows use of "using" blocks (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?tabs=aspnetcore2x&view=aspnetcore-2.2#log-scopes)
+					logging.AddEventLog(); // Logs to the Windows Event log. (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?tabs=aspnetcore2x&view=aspnetcore-2.2#windows-eventlog-provider)
+				})
 				.UseStartup<Startup>();
 	}
 }

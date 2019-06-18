@@ -5,6 +5,7 @@ using Argus.Infrastructure.Logging;
 using Argus.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,6 +18,7 @@ namespace Argus.MVC.Controllers
 		private readonly IConfiguration _config;
 		private readonly IApplicationService _applicationService;
 		private readonly IIssueService _issueService;
+		private readonly ILogger _logger;
 
 		/// <summary>
 		/// Default constructor.
@@ -27,7 +29,7 @@ namespace Argus.MVC.Controllers
 		/// <remarks>
 		///		The repositories are registered as services in Startup.cs, so that's where they come from.
 		/// </remarks>
-		public HomeController(IConfiguration config, IApplicationService applicationService, IIssueService issueService)
+		public HomeController(IConfiguration config, IApplicationService applicationService, IIssueService issueService, ILogger<HomeController> logger)
 		{
 			_config = config ??
 				throw new ArgumentNullException("Configuration cannot be null.");
@@ -35,6 +37,7 @@ namespace Argus.MVC.Controllers
 				throw new ArgumentNullException(nameof(applicationService), "Application Service cannot be null.");
 			_issueService = issueService ??
 				throw new ArgumentNullException(nameof(issueService), "Issue Service cannot be null.");
+			_logger = logger;
 		}
 
 		public IActionResult Index()
@@ -52,7 +55,10 @@ namespace Argus.MVC.Controllers
 			}
 			catch (Exception ex)
 			{
+				// Use StaticLogger until file-writing is possible via ILogger without a 3rd-party package.
+				_logger.LogError(ex, "Error in HomeController.Index()!");
 				StaticLogger.Write(ex);
+
 				return Error();
 			}
 
@@ -91,7 +97,10 @@ namespace Argus.MVC.Controllers
 			}
 			catch (Exception ex)
 			{
+				// Use StaticLogger until file-writing is possible via ILogger without a 3rd-party package.
+				_logger.LogError(ex, "Error in HomeController.GetApplicationUpdates()!");
 				StaticLogger.Write(ex);
+
 				return Error();
 			}
 		}
