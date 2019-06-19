@@ -8,7 +8,11 @@
 <script src="@fontAwesomeCdnSource"></script>
 
 <div class="text-center">
-	<h1 class="display-4"><strong>Argus</strong> - System Monitor</h1>
+	<h1 class="display-4"><strong>Argus</strong> - System Monitor
+		<environment include="Development">
+			<strong>(DEV)</strong>
+		</environment>
+	</h1>
 	<p>Status as of <span id="StatusDateTime">@DateTime.Now</span>.</p>
 	<div id="AfterHoursAlert" class="alert alert-warning alert-dismissible" role="alert">
 		<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>

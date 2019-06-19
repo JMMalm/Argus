@@ -48,6 +48,9 @@ namespace Argus.MVC
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
+			/* ASPNETCORE_ENVIRONMENT is read during startup and stored in IHostingEnvironment.EnvironmentName.
+			 * Any value can be used but 3 are supported by default: Development, Staging, and Production. Default is Production.
+			 */
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
