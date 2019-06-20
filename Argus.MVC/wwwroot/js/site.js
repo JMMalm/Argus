@@ -47,6 +47,15 @@ $(document).ready(function () {
 		}
 	});
 
+	$('#SaveCheckbox').change(function () {
+		if ($('#SaveCheckbox').prop('checked')) {
+			saveSettings();
+		}
+		else {
+			resetSettings();
+		}
+	});
+
 	$('h5 > i').click(function () {
 		$(this).parents('div.col-sm-4').attr('data-hidden', true).fadeOut();
 		$('#UnhideCheckbox').prop('checked', false)
@@ -143,4 +152,41 @@ function showReportIssueModal() {
 function isAfterHours() {
 	var localHour = new Date($.now()).getHours();
 	return (localHour >= 18 || localHour < 8);
+}
+
+function saveSettings() {
+	var hiddenIds = getIdsOfHiddenApplications();
+	localStorage.setItem('hiddenApps', hiddenIds);
+	localStorage.setItem('saveSettings', $('#SaveCheckbox').prop('checked'));
+}
+
+function getIdsOfHiddenApplications() {
+	var ids = [];
+	$('div.col-sm-4[data-hidden="true"]').each(function () {
+		var id = $(this).attr('data-id');
+		if (id) {
+			ids.push(id);
+		}
+	});
+	return ids;
+}
+
+function checkSavedSettings() {
+	if (localStorage.getItem('saveSettings') === true) {
+		$('#SaveCheckbox').prop('checked', true);
+
+		var hiddenIds = localStorage.getItem('hiddenApps');
+		if (hiddenIds) {
+			hiddenIds.split(',').forEach(function (v) {
+				$('div.col-sm-4[data-id="' + v + '"]')
+					.attr('data-hidden', true)
+					.fadeOut();
+			});
+
+			var $unhideCheckbox = $('#UnhideCheckbox');
+			if ($unhideCheckbox.prop('checked')) {
+				$unhideCheckbox.prop('checked', false);
+			}
+		}
+	}
 }
