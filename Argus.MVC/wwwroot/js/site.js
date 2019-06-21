@@ -10,6 +10,8 @@ $(document).ready(function () {
 		$('#AfterHoursAlert').fadeOut();
 	}
 
+	checkSavedSettings();
+
 	// "e.StopPropagation" will keep the dropdown open after clicking either checkbox.
 	// Click outside the dropdown to close it.
 	$('#AutoScrollCheckbox').change(function () {
@@ -44,15 +46,6 @@ $(document).ready(function () {
 			$('div.col-sm-4[data-hidden="false"]')
 				.attr('data-hidden', true)
 				.fadeOut();
-		}
-	});
-
-	$('#SaveCheckbox').change(function () {
-		if ($('#SaveCheckbox').prop('checked')) {
-			saveSettings();
-		}
-		else {
-			resetSettings();
 		}
 	});
 
@@ -157,7 +150,12 @@ function isAfterHours() {
 function saveSettings() {
 	var hiddenIds = getIdsOfHiddenApplications();
 	localStorage.setItem('hiddenApps', hiddenIds);
-	localStorage.setItem('saveSettings', $('#SaveCheckbox').prop('checked'));
+	localStorage.setItem('saveSettings', true);
+
+	$('#SaveSettingsAlert').fadeIn();
+	setTimeout(function () {
+		$("#SaveSettingsAlert").fadeOut(2000);
+	}, 5000);
 }
 
 function getIdsOfHiddenApplications() {
@@ -172,8 +170,7 @@ function getIdsOfHiddenApplications() {
 }
 
 function checkSavedSettings() {
-	if (localStorage.getItem('saveSettings') === true) {
-		$('#SaveCheckbox').prop('checked', true);
+	if (localStorage.getItem('saveSettings')) {
 
 		var hiddenIds = localStorage.getItem('hiddenApps');
 		if (hiddenIds) {
