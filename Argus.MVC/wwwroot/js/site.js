@@ -12,6 +12,10 @@ $(document).ready(function () {
 
 	checkSavedSettings();
 
+	$('#settingsLink').click(function () {
+		$('#settingsModal').modal('show');
+	})
+
 	// "e.StopPropagation" will keep the dropdown open after clicking either checkbox.
 	// Click outside the dropdown to close it.
 	$('#AutoScrollCheckbox').change(function () {
@@ -195,5 +199,5 @@ function checkSavedSettings() {
 }
 
 function updateSort(selectedValue) {
-	document.location.href = '?sortOption=' + selectedValue;
+	document.location.href = location.origin + '?sortOption=' + selectedValue;
 }

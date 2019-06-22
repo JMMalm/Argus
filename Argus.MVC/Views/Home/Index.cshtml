@@ -5,6 +5,11 @@
 	string fontAwesomeCdnSource = "https://use.fontawesome.com/" + @ViewBag.FontAwesomeKey + ".js";
 }
 
+@section Scripts
+{
+	<script src="@Url.Content("~/js/site.js")"></script>
+}
+
 <script src="@fontAwesomeCdnSource"></script>
 
 <div class="text-center">
@@ -106,6 +111,64 @@
 				<div class="d-flex align-items-center">
 					<div class="spinner-border text-primary" role="status" aria-hidden="true"></div>
 					<strong class="m-3">Retrieving application updates...</strong>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal fade" id="settingsModal">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+
+			<div class="modal-header bg-primary text-light">
+				<h4 class="modal-title">Settings</h4>
+				<button type="button" class="close text-light" data-dismiss="modal">&times;</button>
+			</div>
+
+			<div class="modal-body">
+				<div class="align-items-center">
+					<div class="custom-control custom-switch">
+						<input id="AutoScrollCheckbox" type="checkbox" class="custom-control-input">
+						<label class="custom-control-label" for="AutoScrollCheckbox">Enable auto-scroll</label>
+					</div>
+					<div class="custom-control custom-switch">
+						<input id="AutoRefreshCheckbox" type="checkbox" class="custom-control-input">
+						<label class="custom-control-label" for="AutoRefreshCheckbox">Enable auto-refresh</label>
+					</div>
+					<div class="custom-control custom-switch">
+						<input id="UnhideCheckbox" type="checkbox" class="custom-control-input">
+						<label class="custom-control-label" for="UnhideCheckbox">Show hidden apps</label>
+					</div>
+					<div class="dropdown-divider"></div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="inputGroupSelect01">Sort</label>
+						</div>
+						<select class="custom-select" id="SortSelectionInputGroup" onchange="updateSort(this.value)">
+							@* I don't like this but at least it's clean enough to read. *@
+							@if (ViewBag.SortSelection == 1)
+							{
+								<option value="0">Alphabetical (default)</option>
+								<option value="1" selected>Priority</option>
+							}
+							else
+							{
+								<option value="0" selected>Alphabetical (default)</option>
+								<option value="1">Priority</option>
+							}
+						</select>
+					</div>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item pl-3" href="#" onclick="saveSettings()">
+						<span><i class="fa fa-floppy-o" aria-hidden="true"></i></span>
+						<span class="pl-2">Save App Selection</span>
+					</a>
 				</div>
 			</div>
 

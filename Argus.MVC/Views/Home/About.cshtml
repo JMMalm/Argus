@@ -62,10 +62,10 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
 	$(document).ready(function () {
-		$('.nav-item.dropdown').toggle();
+		$('#settingsLink').toggle();
 	});
 
 	$(window).on('beforeunload', function () {
-		$('.nav-item.dropdown').toggle();
+		$('#settingsLink').toggle();
 	});
 </script>
