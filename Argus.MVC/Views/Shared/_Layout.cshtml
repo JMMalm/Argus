@@ -51,6 +51,25 @@
 								<label class="custom-control-label" for="UnhideCheckbox">Show hidden apps</label>
 							</div>
 							<div class="dropdown-divider"></div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<label class="input-group-text" for="inputGroupSelect01">Sort</label>
+								</div>
+								<select class="custom-select" id="SortSelectionInputGroup" onchange="updateSort(this.value)">
+									@* I don't like this but at least it's clean enough to read. *@
+									@if (ViewBag.SortSelection == 1)
+									{
+										<option value="0">Alphabetical (default)</option>
+										<option value="1" selected>Priority</option>
+									}
+									else
+									{
+										<option value="0" selected>Alphabetical (default)</option>
+										<option value="1">Priority</option>
+									}
+								</select>
+							</div>
+							<div class="dropdown-divider"></div>
 							<a class="dropdown-item pl-3" href="#" onclick="saveSettings()">
 								<span><i class="fa fa-floppy-o" aria-hidden="true"></i></span>
 								<span class="pl-2">Save App Selection</span>

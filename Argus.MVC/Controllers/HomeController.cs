@@ -40,18 +40,21 @@ namespace Argus.MVC.Controllers
 			_logger = logger;
 		}
 
-		public IActionResult Index()
+		public IActionResult Index(int sortOption = 0)
 		{
 			IEnumerable<ApplicationModel> appsModel = null;
 
 			try
 			{
+				SortOption sortSelection = GetValidSortOption(sortOption);
+
 				// Get the Font Awesome CDN key from secrets.json.
 				ViewBag.FontAwesomeKey = _config.GetValue<string>("fontawesome-cdn-key");
 				ViewBag.IssueSubmissionUrl = _config.GetValue<string>("IssueSubmissionUrl");
+				ViewBag.SortSelection = (int)sortSelection;
 
 				// Hard-coded date because we'll only have a subset of data for a particular date.
-				appsModel = GetApplicationIssues(new DateTime(2019, 6, 6));
+				appsModel = GetApplicationIssues(new DateTime(2019, 6, 6), sortSelection);
 			}
 			catch (Exception ex)
 			{
@@ -77,11 +80,12 @@ namespace Argus.MVC.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult GetApplicationUpdates(int[] applicationIds, bool isTest)
+		public IActionResult GetApplicationUpdates(int[] applicationIds, int sortOption = 0, bool isTest = false)
 		{
 			try
 			{
-				var applications = GetApplicationIssues(new DateTime(2019, 6, 6))
+				SortOption sortSelection = GetValidSortOption(sortOption);
+				var applications = GetApplicationIssues(new DateTime(2019, 6, 6), sortSelection)
 						.Where(a => applicationIds.Contains(a.Id))
 						.ToList();
 
@@ -105,11 +109,11 @@ namespace Argus.MVC.Controllers
 			}
 		}
 
-		private IEnumerable<ApplicationModel> GetApplicationIssues(DateTime date)
+		private IEnumerable<ApplicationModel> GetApplicationIssues(DateTime date,SortOption sortSelection = SortOption.Alphabetical)
 		{
 			var applications = _applicationService.GetApplications()?
 				.Where(a => a.IsEnabled == true)
-				.OrderBy(a => a.Id);
+				.OrderBy(a => a.Name);
 
 			var issues = _issueService.GetIssuesByDate(date, date.AddDays(1));
 
@@ -130,7 +134,35 @@ namespace Argus.MVC.Controllers
 				});
 			}
 
+			if (sortSelection == SortOption.Priority)
+			{
+				appsModel = (
+					from a in appsModel
+					orderby a.HasUrgentPriority descending, a.IssueCount descending, a.Name
+					select a
+				).ToList();
+			}
+
 			return appsModel;
+		}
+
+		private SortOption GetValidSortOption(int sortOption)
+		{
+			SortOption sortSelection = (int)SortOption.Alphabetical;
+			try
+			{
+				sortSelection =
+					(SortOption)Enum.GetValues(typeof(SortOption))
+						.Cast<int>()
+						.FirstOrDefault(o => o == sortOption);
+			}
+			catch(Exception ex)
+			{
+				// This is a minor error but log it anyway.
+				StaticLogger.Write(ex);
+			}
+
+			return sortSelection;
 		}
 	}
 }

@@ -71,7 +71,7 @@ function autoScroll() {
 
 function getApplicationUpdates(isTest = false) {
 
-	if (isAfterHours()) {
+	if (isAfterHours() && !isTest) {
 		$('#AfterHoursAlert').fadeIn();
 		return;
 	}
@@ -89,10 +89,16 @@ function getApplicationUpdates(isTest = false) {
 		}
 	});
 
+	var sortOption = $('#SortSelectionInputGroup').val();
+
 	$.ajax({
 		type: 'GET',
 		contentType: 'application/json',
-		data: { 'applicationIds': ids, 'isTest': isTest },
+		data: {
+			'applicationIds': ids,
+			'sortOption': sortOption,
+			'isTest': isTest
+		},
 		dataType: "json",
 		traditional: true,
 		url: '/Home/GetApplicationUpdates',
@@ -186,4 +192,8 @@ function checkSavedSettings() {
 			}
 		}
 	}
+}
+
+function updateSort(selectedValue) {
+	document.location.href = '?sortOption=' + selectedValue;
 }
