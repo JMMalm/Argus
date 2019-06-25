@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2ADD478C-54AE-4F70-B18B-321DFA2634FF}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		Argus-Create-Tables.sql = Argus-Create-Tables.sql
 		readme.md = readme.md
 	EndProjectSection
 EndProject
@@ -17,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argus.Infrastructure", "Arg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argus.Tests", "Argus.Tests\Argus.Tests.csproj", "{21BB1F88-0C6B-49E3-AD50-9B861D350606}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argus.ConsoleApp", "Argus.ConsoleApp\Argus.ConsoleApp.csproj", "{9A540216-8A26-45F2-9C30-CC8D74A299FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argus.ConsoleApp", "Argus.ConsoleApp\Argus.ConsoleApp.csproj", "{9A540216-8A26-45F2-9C30-CC8D74A299FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

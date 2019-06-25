@@ -6,8 +6,9 @@ Argus' main page scrolls through a listing of the company's applications and wou
 ## Features
 * Responsive design for both desktop and mobile.
 * Ability to hide unwanted application elements from display and the option to show them again.
+  * Includes the option to save your selection of hidden apps for future visits.
 * Auto-scroll functionality.
-* (Coming soon) Auto-refresh functionality to fetch application updates at a pre-defined interval. (currently 60 seconds)
+* Auto-refresh functionality to fetch application updates at a pre-defined interval. (currently 60 seconds)
 
 ## Built With
 * ASP.NET Core MVC (.NET Core 2.2)
