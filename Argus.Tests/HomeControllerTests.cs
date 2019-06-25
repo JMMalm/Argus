@@ -1,6 +1,4 @@
-using Argus.Core;
 using Argus.Core.Application;
-using Argus.Core.Data;
 using Argus.Core.Enums;
 using Argus.Core.Issue;
 using Argus.Infrastructure.Repositories;
@@ -13,7 +11,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Argus.Tests
@@ -42,7 +39,7 @@ namespace Argus.Tests
 		
 		[TestMethod]
 		[TestCategory("Integration")]
-		public void Index_ModelIsNotNull()
+		public void Index_SortOptionDefault_ModelIsNotNull()
 		{
 			int expectedMinimumModelCount = 1;
 			var controller = new HomeController(_config, _applicationService, _issueService, _logger.Object);
@@ -53,6 +50,57 @@ namespace Argus.Tests
 			Assert.IsNotNull(result.Model);
 			Assert.IsFalse(string.IsNullOrWhiteSpace(controller.ViewBag.FontAwesomeKey));
 			Assert.IsTrue(resultModel.Count() >= expectedMinimumModelCount);
+		}
+
+		[TestMethod]
+		[TestCategory("Integration")]
+		public void Index_SortOptionPriority_ModelIsInPriorityOrder()
+		{
+			int expectedMinimumModelCount = 1;
+			var controller = new HomeController(_config, _applicationService, _issueService, _logger.Object);
+
+			var result = controller.Index(1) as ViewResult;
+			var resultModel = (result as ViewResult).Model as IEnumerable<ApplicationModel>;
+
+			Assert.IsNotNull(result.Model);
+			Assert.IsFalse(string.IsNullOrWhiteSpace(controller.ViewBag.FontAwesomeKey));
+			Assert.IsTrue(resultModel.Count() >= expectedMinimumModelCount);
+			Assert.IsTrue(resultModel.First().HasUrgentPriority);
+		}
+
+		[TestMethod]
+		[TestCategory("Integration")]
+		public void GetApplicationUpdates_SortOptionDefault_SpecificIdsReturned()
+		{
+			int[] ids = new int[] { 1, 2, 4};
+			var controller = new HomeController(_config, _applicationService, _issueService, _logger.Object);
+
+			var result = (JsonResult)controller.GetApplicationUpdates(ids);
+			var applications = result.Value as List<ApplicationModel>;
+
+			Assert.AreEqual(ids.Length, applications.Count);
+			applications.ForEach(a =>
+			{
+				Assert.IsTrue(ids.Contains(a.Id));
+			});
+		}
+
+		[TestMethod]
+		[TestCategory("Integration")]
+		public void GetApplicationUpdates_SortOptionPriority_ResultIsInPriorityOrder()
+		{
+			int[] ids = new int[] { 1, 2, 6 };
+			var controller = new HomeController(_config, _applicationService, _issueService, _logger.Object);
+
+			var result = (JsonResult)controller.GetApplicationUpdates(ids, (int)SortOption.Priority);
+			var applications = result.Value as List<ApplicationModel>;
+
+			Assert.AreEqual(ids.Length, applications.Count);
+			applications.ForEach(a =>
+			{
+				Assert.IsTrue(ids.Contains(a.Id));
+			});
+			Assert.IsTrue(applications.First().HasUrgentPriority);
 		}
 
 		[TestMethod]

@@ -109,7 +109,7 @@ namespace Argus.MVC.Controllers
 			}
 		}
 
-		private IEnumerable<ApplicationModel> GetApplicationIssues(DateTime date,SortOption sortSelection = SortOption.Alphabetical)
+		private IEnumerable<ApplicationModel> GetApplicationIssues(DateTime date, SortOption sortSelection = SortOption.Alphabetical)
 		{
 			var applications = _applicationService.GetApplications()?
 				.Where(a => a.IsEnabled == true)
