@@ -16,8 +16,6 @@ $(document).ready(function () {
 		$('#settingsModal').modal('show');
 	})
 
-	// "e.StopPropagation" will keep the dropdown open after clicking either checkbox.
-	// Click outside the dropdown to close it.
 	$('#AutoScrollCheckbox').change(function () {
 		if ($('#AutoScrollCheckbox').prop('checked')) {
 			scrollInterval = setInterval(autoScroll, 2000);
@@ -25,9 +23,7 @@ $(document).ready(function () {
 		else {
 			clearInterval(scrollInterval);
 		}
-	}).parents('.dropdown-menu').on("click.bs.dropdown", function (e) {
-		e.stopPropagation();
-	});
+	})
 
 	$('#AutoRefreshCheckbox').change(function () {
 		if ($('#AutoRefreshCheckbox').prop('checked')) {
@@ -36,9 +32,7 @@ $(document).ready(function () {
 		else {
 			clearInterval(refreshInterval);
 		}
-	}).parents('.dropdown-menu').on("click.bs.dropdown", function (e) {
-		e.stopPropagation();
-	});
+	})
 
 	$('#UnhideCheckbox').change(function () {
 		if ($('#UnhideCheckbox').prop('checked')) {
@@ -85,14 +79,7 @@ function getApplicationUpdates(isTest = false) {
 
 	$('#loadingModal').modal('show');
 
-	var ids = [];
-	$('div.col-sm-4:not([data-hidden="true"').each(function () {
-		var id = $(this).attr('data-id');
-		if (id) {
-			ids.push(id);
-		}
-	});
-
+	var ids = getIdArray('div.col-sm-4:not([data-hidden="true"');
 	var sortOption = $('#SortSelectionInputGroup').val();
 
 	$.ajax({
@@ -158,7 +145,7 @@ function isAfterHours() {
 }
 
 function saveSettings() {
-	var hiddenIds = getIdsOfHiddenApplications();
+	var hiddenIds = getIdArray('div.col-sm-4[data-hidden="true"]');
 	localStorage.setItem('hiddenApps', hiddenIds);
 	localStorage.setItem('saveSettings', true);
 
@@ -166,17 +153,6 @@ function saveSettings() {
 	setTimeout(function () {
 		$("#SaveSettingsAlert").fadeOut(2000);
 	}, 5000);
-}
-
-function getIdsOfHiddenApplications() {
-	var ids = [];
-	$('div.col-sm-4[data-hidden="true"]').each(function () {
-		var id = $(this).attr('data-id');
-		if (id) {
-			ids.push(id);
-		}
-	});
-	return ids;
 }
 
 function checkSavedSettings() {
@@ -200,4 +176,14 @@ function checkSavedSettings() {
 
 function updateSort(selectedValue) {
 	document.location.href = location.origin + '?sortOption=' + selectedValue;
+}
+
+function getIdArray(selector) {
+	var ids = [];
+	$(selector).each(function () {
+		var id = $(this).attr('data-id');
+		if (id) {
+			ids.push(id);
+		}
+	});
 }
