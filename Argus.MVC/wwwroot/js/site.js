@@ -133,6 +133,15 @@ function updateApplication(application) {
 		.fadeIn()
 		.removeClass('bg-success bg-warning bg-danger text-light text-dark')
 		.addClass('' + cardColor + ' ' + cardTextColor + '');
+
+	if (application.hasUrgentPriority && !$applicationCard.find('i.pulse').length) {
+		$applicationCard
+			.find('i')
+			.before('<i class="fa fa-exclamation-triangle pulse" aria-hidden="true" title="High priority issue(s) have been reported."></i>');
+	}
+	else if (!application.hasUrgentPriority && $applicationCard.find('i.pulse').length) {
+		$applicationCard.find('i.pulse').remove();
+	}
 }
 
 function showReportIssueModal() {
@@ -186,4 +195,6 @@ function getIdArray(selector) {
 			ids.push(id);
 		}
 	});
+
+	return ids;
 }

@@ -75,7 +75,11 @@
 			<div class="card mb-3">
 				<h5 class="card-header @cssTextColor @cssClassByIssueCount">
 					@app.Name
-					<i class="fa fa-eye-slash fa-2 fa-clickable float-right" aria-hidden="true"></i>
+					@if (app.HasUrgentPriority)
+					{
+						<i class="fa fa-exclamation-triangle pulse" aria-hidden="true" title="High priority issue(s) have been reported."></i>
+					}
+					<i class="fa fa-eye-slash fa-2 fa-clickable float-right" aria-hidden="true" title="Click to hide this application."></i>
 				</h5>
 				<div class="card-body">
 					<p class="card-text">
