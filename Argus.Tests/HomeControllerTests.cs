@@ -70,6 +70,17 @@ namespace Argus.Tests
 
 		[TestMethod]
 		[TestCategory("Integration")]
+		public void About_FontAwesomeKeyIsFound_ReturnsView()
+		{
+			var controller = new HomeController(_config, _applicationService, _issueService, _logger.Object);
+
+			var result = controller.About() as ViewResult;
+
+			Assert.IsTrue(!string.IsNullOrWhiteSpace(result.ViewData["FontAwesomeKey"].ToString()));
+		}
+
+		[TestMethod]
+		[TestCategory("Integration")]
 		public void GetApplicationUpdates_SortOptionDefault_SpecificIdsReturned()
 		{
 			int[] ids = new int[] { 1, 2, 4};

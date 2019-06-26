@@ -70,6 +70,18 @@ namespace Argus.MVC.Controllers
 
 		public IActionResult About()
 		{
+			try
+			{
+				ViewBag.FontAwesomeKey = _config.GetValue<string>("fontawesome-cdn-key");
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Error in HomeController.About()!");
+				StaticLogger.Write(ex);
+
+				return Error();
+			}
+
 			return View();
 		}
 

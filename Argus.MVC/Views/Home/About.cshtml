@@ -1,7 +1,10 @@
 ﻿
 @{
 	ViewData["Title"] = "About";
+	string fontAwesomeCdnSource = "https://use.fontawesome.com/" + @ViewBag.FontAwesomeKey + ".js";
 }
+
+<script src="@fontAwesomeCdnSource"></script>
 
 <h1>About</h1>
 <div>
@@ -19,7 +22,9 @@
 			<strong>Color-Coded UI</strong> - Application cards are color-coding depending on their issue count and urgency.
 		</li>
 		<li>
-			<strong>Toggleable Application Cards</strong> - You can hide (and later show) applications irrelevant to you or your team.
+			<strong>Toggleable Application Cards</strong> - You can hide (and later show) applications irrelevant to you or your team
+			by clicking the <i class="fa fa-eye-slash fa-2 fa-clickable" aria-hidden="true" title="Click to hide this application."></i>
+			icon.
 		</li>
 		<li>
 			<strong>Auto-Scroll</strong> - You can select to automatically scroll down the page. (and back up).
@@ -28,7 +33,10 @@
 			<strong>Auto-Refresh</strong> - Select this option to have the page periodically refresh its data.
 		</li>
 		<li>
-			<strong>Save App Selection</strong> - Click this option and Argus will automatically hide the apps you don't want to see.
+			<strong>Sorting</strong> - Application sort-order can be toggled between issue <em>priority</em> or <em>alphabetically</em> (default).
+		</li>
+		<li>
+			<strong>Save App Selection</strong> - Click this option and Argus will automatically hide the apps you don't want to see for future visits.
 		</li>
 		<li>
 			<strong>Responsive Design</strong> - The website maintains function and style on both desktop and mobile devices.
@@ -37,12 +45,26 @@
 </div>
 <br />
 
+<h2>How The Color-Coding Works</h2>
+<div>
+	<p>
+		Applications having no reported issues will have their UI elements shaded <span class="text-success">green</span>, while
+		those having 1-2 issues are shaded <span class="text-warning">yellow</span>. Applications having 3 or more reported issues
+		- or have <em>any</em> number of issues of <b>high priority</b> - will be shaded <span class="text-danger">red</span>.
+	</p>
+	<p>
+		Additionally, applications with any number of high priority issues will be denoted with a
+		<i class="fa fa-exclamation-triangle pulse" aria-hidden="true" title="High priority issue(s) have been reported."></i> icon.
+	</p>
+</div>
+<br />
+
 <h2>The Name</h2>
 <div>
 	<strong>Argus</strong> is named after <em>Argus Panoptes</em>, the many-eyed giant of Greek mythology tasked with guarding Io by the goddess Hera,
 	from whom the phrase <em><q cite="https://en.wikipedia.org/wiki/Argus_Panoptes">the eyes of Argus</q></em> derives.
-	<em>Panoptes</em> translates to "the all-seeing", though in an ironic twist of fate Argus is slain by the Olympian messenger Hermes after being lulled
-	into a deep sleep.
+	<em>Panoptes</em> translates to "the all-seeing", though apparently not in a premonitory sense, as in an ironic twist of fate
+	<span class="spoiler">Argus is slain by the Olympian messenger Hermes after being lulled into a deep sleep.</span>
 </div>
 <br />
 

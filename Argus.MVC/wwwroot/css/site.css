@@ -103,3 +103,18 @@ body {
 		color: #ffffff;
 	}
 }
+
+span.spoiler {
+	text-shadow: 0 0 8px #000;
+	color: rgba(255, 255, 255, 0);
+	filter: DXImageTransform.Microsoft.Blur(pixelradius=2);
+	zoom: 1;
+	pause-before: 2s;
+	transition: 1s text-shadow linear;
+}
+
+span.spoiler:hover {
+	text-shadow: none;
+	color: #000;
+	filter: none;
+}
