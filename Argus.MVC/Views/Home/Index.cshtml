@@ -10,6 +10,13 @@
 	<script src="@Url.Content("~/js/site.js")"></script>
 }
 
+<script>
+	var sortOption = localStorage.getItem('sortOption');
+	if (sortOption && window.location.href.indexOf("sortOption") == -1) {
+		window.location.href = location.origin + '?sortOption=' + sortOption;
+	}
+</script>
+
 <script src="@fontAwesomeCdnSource"></script>
 
 <div class="text-center">
@@ -20,11 +27,6 @@
 		</environment>
 	</h1>
 	<p>Status as of <span id="StatusDateTime">@DateTime.Now</span>.</p>
-	<div id="SaveSettingsAlert" class="alert alert-success alert-dismissible" role="alert">
-		<i class="fa fa-check-circle-o" aria-hidden="true"></i>
-		Your application selection has been saved!
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
-	</div>
 	<div id="AfterHoursAlert" class="alert alert-warning alert-dismissible" role="alert">
 		<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 		NOTE: Auto-refresh is disabled between 6pm and 8am local time! You may still refresh data by reloading the page on-demand.
@@ -137,6 +139,11 @@
 
 			<div class="modal-body">
 				<div class="align-items-center">
+					<div id="SaveSettingsAlert" class="alert alert-success alert-dismissible" role="alert">
+						<i class="fa fa-check-circle-o" aria-hidden="true"></i>
+						Your application selection has been saved!
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+					</div>
 					<div class="custom-control custom-switch">
 						<input id="AutoScrollCheckbox" type="checkbox" class="custom-control-input">
 						<label class="custom-control-label" for="AutoScrollCheckbox">Enable auto-scroll</label>
@@ -154,7 +161,7 @@
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="inputGroupSelect01">Sort</label>
 						</div>
-						<select class="custom-select" id="SortSelectionInputGroup" onchange="updateSort(this.value)">
+						<select class="custom-select" id="SortSelectionInputGroup">
 							@* I don't like this but at least it's clean enough to read. *@
 							@if (ViewBag.SortSelection == 1)
 							{
@@ -168,15 +175,15 @@
 							}
 						</select>
 					</div>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item pl-3" href="#" onclick="saveSettings()">
-						<span><i class="fa fa-floppy-o" aria-hidden="true"></i></span>
-						<span class="pl-2">Save App Selection</span>
-					</a>
+					
 				</div>
 			</div>
 
 			<div class="modal-footer">
+				<a class="btn btn-block btn-primary rounded-pill pl-3" href="#" onclick="saveSettings()">
+					<span><i class="fa fa-floppy-o" aria-hidden="true"></i></span>
+					<span class="pl-2">Save App Selection</span>
+				</a>
 			</div>
 
 		</div>

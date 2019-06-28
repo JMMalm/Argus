@@ -1,5 +1,6 @@
 ﻿var refreshInterval = null;
 var scrollInterval = null;
+var sortOption = "0";
 
 $(document).ready(function () {
 
@@ -10,11 +11,20 @@ $(document).ready(function () {
 		$('#AfterHoursAlert').fadeOut();
 	}
 
+	sortOption = $('#SortSelectionInputGroup').val();
+
 	checkSavedSettings();
 
 	$('#settingsLink').click(function () {
 		$('#settingsModal').modal('show');
 	})
+
+	$("#settingsModal").on("hidden.bs.modal", function () {
+		var selectedSortOption = $('#SortSelectionInputGroup').val();
+		if (sortOption !== selectedSortOption) {
+			document.location.href = location.origin + '?sortOption=' + selectedSortOption;
+		}
+	});
 
 	$('#AutoScrollCheckbox').change(function () {
 		if ($('#AutoScrollCheckbox').prop('checked')) {
@@ -156,6 +166,7 @@ function isAfterHours() {
 function saveSettings() {
 	var hiddenIds = getIdArray('div.col-sm-4[data-hidden="true"]');
 	localStorage.setItem('hiddenApps', hiddenIds);
+	localStorage.setItem('sortOption', $('#SortSelectionInputGroup').val());
 	localStorage.setItem('saveSettings', true);
 
 	$('#SaveSettingsAlert').fadeIn();
@@ -183,8 +194,11 @@ function checkSavedSettings() {
 	}
 }
 
-function updateSort(selectedValue) {
-	document.location.href = location.origin + '?sortOption=' + selectedValue;
+function checkSortOption() {
+	var sortOption = localStorage.getItem('sortOption');
+	if (sortOption && window.location.href.indexOf("sortOption") == -1) {
+		window.location.href = location.origin + '?sortOption=' + sortOption;
+	}
 }
 
 function getIdArray(selector) {
