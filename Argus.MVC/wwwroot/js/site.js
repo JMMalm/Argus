@@ -165,7 +165,7 @@ function isAfterHours() {
 }
 
 function saveSettings() {
-	var hiddenIds = getIdArray('div.col-sm-4[data-hidden="true"]'); // Try $('div.col-sm-4[data-hidden]').length instead.
+	var hiddenIds = getIdArray('div.col-sm-4[data-hidden]');
 	localStorage.setItem('hiddenApps', hiddenIds);
 	localStorage.setItem('showHidden', $('#UnhideCheckbox').prop('checked'));
 	localStorage.setItem('sortOption', $('#SortSelectionInputGroup').val());
@@ -221,9 +221,11 @@ function resetSettings() {
 		.change();
 	localStorage.removeItem('hiddenApps');
 	localStorage.removeItem('showHidden');
+	$('div.col-sm-4[data-hidden]')
+		.removeAttr('data-hidden')
+		.fadeIn();
 	$('#UnhideCheckbox')
-		.prop('checked', false)
-		.change();
+		.prop('checked', false);
 	localStorage.removeItem('sortOption');
 	$('#SortSelectionInputGroup').val(0);
 	localStorage.removeItem('saveSettings');
