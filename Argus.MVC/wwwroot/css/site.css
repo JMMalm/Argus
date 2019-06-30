@@ -27,7 +27,7 @@ html {
 	}
 }
 
-#SaveSettingsAlert {
+#ResetSettingsAlert, #SaveSettingsAlert {
 	display: none;
 }
 

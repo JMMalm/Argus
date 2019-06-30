@@ -13,8 +13,6 @@ $(document).ready(function () {
 
 	sortOption = $('#SortSelectionInputGroup').val();
 
-	checkSavedSettings();
-
 	$('#settingsLink').click(function () {
 		$('#settingsModal').modal('show');
 	})
@@ -61,6 +59,8 @@ $(document).ready(function () {
 		$(this).parents('div.col-sm-4').attr('data-hidden', true).fadeOut();
 		$('#UnhideCheckbox').prop('checked', false)
 	});
+
+	checkSavedSettings();
 })
 
 function autoScroll() {
@@ -81,6 +81,7 @@ function getApplicationUpdates(isTest = false) {
 
 	if (isAfterHours() && !isTest) {
 		$('#AfterHoursAlert').fadeIn();
+		console.log('After hours detected - skipping update request.')
 		return;
 	}
 	else {
@@ -164,10 +165,14 @@ function isAfterHours() {
 }
 
 function saveSettings() {
-	var hiddenIds = getIdArray('div.col-sm-4[data-hidden="true"]');
+	var hiddenIds = getIdArray('div.col-sm-4[data-hidden="true"]'); // Try $('div.col-sm-4[data-hidden]').length instead.
 	localStorage.setItem('hiddenApps', hiddenIds);
+	localStorage.setItem('showHidden', $('#UnhideCheckbox').prop('checked'));
 	localStorage.setItem('sortOption', $('#SortSelectionInputGroup').val());
 	localStorage.setItem('saveSettings', true);
+
+	localStorage.setItem('enabledAutoRefresh', $('#AutoRefreshCheckbox').prop('checked'));
+	localStorage.setItem('enabledAutoScroll', $('#AutoScrollCheckbox').prop('checked'));
 
 	$('#SaveSettingsAlert').fadeIn();
 	setTimeout(function () {
@@ -179,19 +184,54 @@ function checkSavedSettings() {
 	if (localStorage.getItem('saveSettings')) {
 
 		var hiddenIds = localStorage.getItem('hiddenApps');
+		var showHidden = (localStorage.getItem('showHidden') == 'true');
 		if (hiddenIds) {
 			hiddenIds.split(',').forEach(function (v) {
 				$('div.col-sm-4[data-id="' + v + '"]')
-					.attr('data-hidden', true)
-					.fadeOut();
+					.attr('data-hidden', showHidden);
 			});
 
-			var $unhideCheckbox = $('#UnhideCheckbox');
-			if ($unhideCheckbox.prop('checked')) {
-				$unhideCheckbox.prop('checked', false);
-			}
+			$('#UnhideCheckbox')
+				.prop('checked', showHidden)
+				.change();
+		}
+
+		if (localStorage.getItem('enabledAutoRefresh') == 'true') {
+			$('#AutoRefreshCheckbox')
+				.prop('checked', true)
+				.change();
+		}
+
+		if (localStorage.getItem('enabledAutoScroll') == 'true') {
+			$('#AutoScrollCheckbox')
+				.prop('checked', true)
+				.change();
 		}
 	}
+}
+
+function resetSettings() {
+	localStorage.removeItem('enabledAutoRefresh');
+	$('#AutoRefreshCheckbox')
+		.prop('checked', false)
+		.change();
+	localStorage.removeItem('enabledAutoScroll');
+	$('#AutoScrollCheckbox')
+		.prop('checked', false)
+		.change();
+	localStorage.removeItem('hiddenApps');
+	localStorage.removeItem('showHidden');
+	$('#UnhideCheckbox')
+		.prop('checked', false)
+		.change();
+	localStorage.removeItem('sortOption');
+	$('#SortSelectionInputGroup').val(0);
+	localStorage.removeItem('saveSettings');
+
+	$('#ResetSettingsAlert').fadeIn();
+	setTimeout(function () {
+		$("#ResetSettingsAlert").fadeOut(2000);
+	}, 5000);
 }
 
 function checkSortOption() {

@@ -141,7 +141,12 @@
 				<div class="align-items-center">
 					<div id="SaveSettingsAlert" class="alert alert-success alert-dismissible" role="alert">
 						<i class="fa fa-check-circle-o" aria-hidden="true"></i>
-						Your application selection has been saved!
+						Your settings have been saved!
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+					</div>
+					<div id="ResetSettingsAlert" class="alert alert-info alert-dismissible" role="alert">
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
+						Your settings have been reset!
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
 					</div>
 					<div class="custom-control custom-switch">
@@ -165,25 +170,29 @@
 							@* I don't like this but at least it's clean enough to read. *@
 							@if (ViewBag.SortSelection == 1)
 							{
-								<option value="0">Alphabetical (default)</option>
-								<option value="1" selected>Priority</option>
+							<option value="0">Alphabetical (default)</option>
+							<option value="1" selected>Priority</option>
 							}
 							else
 							{
-								<option value="0" selected>Alphabetical (default)</option>
-								<option value="1">Priority</option>
+							<option value="0" selected>Alphabetical (default)</option>
+							<option value="1">Priority</option>
 							}
 						</select>
 					</div>
-					
+
 				</div>
 			</div>
 
-			<div class="modal-footer">
-				<a class="btn btn-block btn-primary rounded-pill pl-3" href="#" onclick="saveSettings()">
+			<div class="modal-footer justify-content-center">
+				<button class="btn btn-primary rounded-pill" href="#" onclick="saveSettings()">
 					<span><i class="fa fa-floppy-o" aria-hidden="true"></i></span>
-					<span class="pl-2">Save App Selection</span>
-				</a>
+					<span class="pl-2">Save Settings</span>
+				</button>
+				<button class="btn btn-danger rounded-pill" href="#" onclick="resetSettings()">
+					<span><i class="fa fa-floppy-o" aria-hidden="true"></i></span>
+					<span class="pl-2">Reset Settings</span>
+				</button>
 			</div>
 
 		</div>
@@ -218,8 +227,7 @@
 			</div>
 
 			<div class="modal-footer">
-				<a href="@ViewBag.IssueSubmissionUrl" target="_blank" class="btn btn-primary rounded-pill">Go to [Issue-Submission Site]!</a>
-				<button type="button" class="btn btn-secondary rounded-pill" data-dismiss="modal">Cancel</button>
+				<a href="@ViewBag.IssueSubmissionUrl" target="_blank" class="btn btn-block btn-primary rounded-pill">Go to [Issue-Submission Site]!</a>
 			</div>
 
 		</div>
