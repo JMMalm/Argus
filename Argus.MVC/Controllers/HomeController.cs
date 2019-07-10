@@ -93,7 +93,22 @@ namespace Argus.MVC.Controllers
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+			// Consider a middleware option, like so: https://code-maze.com/global-error-handling-aspnetcore/#builtinmiddleware
+			var requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+			var feature = HttpContext.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>(); // Figure out why this returns null.
+			string requestInfo = $"{requestId}: {HttpContext.Request.QueryString}";
+
+			try
+			{
+				ViewBag.FontAwesomeKey = _config.GetValue<string>("fontawesome-cdn-key");
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Error in HomeController.About()!");
+				StaticLogger.Write(ex);
+			}
+
+			return View(new ErrorViewModel { RequestId = requestId });
 		}
 
 		[HttpGet]
