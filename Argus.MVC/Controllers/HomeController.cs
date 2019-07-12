@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 
 namespace Argus.MVC.Controllers
 {
@@ -73,6 +74,7 @@ namespace Argus.MVC.Controllers
 			try
 			{
 				ViewBag.FontAwesomeKey = _config.GetValue<string>("fontawesome-cdn-key");
+				ViewBag.AppVersion = GetAssemblyVersion();
 			}
 			catch (Exception ex)
 			{
@@ -195,6 +197,15 @@ namespace Argus.MVC.Controllers
 			}
 
 			return sortSelection;
+		}
+
+		private string GetAssemblyVersion()
+		{
+			string appVersionAndMode = string.Format("{0} in {1} mode.",
+				Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion,
+				Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToUpper());
+
+			return appVersionAndMode;
 		}
 	}
 }
