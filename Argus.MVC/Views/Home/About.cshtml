@@ -15,73 +15,129 @@
 </div>
 <br />
 
-<h2>Features</h2>
-<div>
-	<ul>
-		<li>
-			<strong>Color-Coded UI</strong> - Application cards are color-coded depending on their issue count and urgency.
-		</li>
-		<li>
-			<strong>Toggleable Application Cards</strong> - You can hide (and later show) applications irrelevant to you or your team
-			by clicking the <i class="fa fa-eye-slash fa-2 fa-clickable" aria-hidden="true" title="Click to hide this application."></i>
-			icon.
-		</li>
-		<li>
-			<strong>Auto-Scroll</strong> - You can select to automatically scroll down the page. (and back up).
-		</li>
-		<li>
-			<strong>Auto-Refresh</strong> - Select this option to have the page periodically refresh its data.
-		</li>
-		<li>
-			<strong>Sorting</strong> - Application sort-order can be toggled between issue <em>priority</em> or <em>alphabetically</em> (default).
-		</li>
-		<li>
-			<strong>Save App Selection</strong> - Click this option and Argus will automatically hide the apps you don't want to see for future visits.
-		</li>
-		<li>
-			<strong>Responsive Design</strong> - The website maintains function and style on both desktop and mobile devices.
-		</li>
-	</ul>
-</div>
-<br />
+<div class="accordion" id="accordionExample">
+	<div class="card">
+		<div class="card-header" id="headingFeatures">
+			<h2 class="mb-0">
+				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFeatures" aria-expanded="true" aria-controls="collapseFeatures">
+					Features
+				</button>
+			</h2>
+		</div>
+		<div id="collapseFeatures" class="collapse" aria-labelledby="headingFeatures" data-parent="#accordionExample">
+			<div class="card-body">
+				<ul>
+					<li>
+						<strong>Color-Coded UI</strong> - Application cards are color-coded depending on their issue count and urgency.
+					</li>
+					<li>
+						<strong>Toggleable Application Cards</strong> - You can hide (and later show) applications irrelevant to you or your team
+						by clicking the <i class="fa fa-eye-slash fa-2 fa-clickable" aria-hidden="true" title="Click to hide this application."></i>
+						icon.
+					</li>
+					<li>
+						<strong>Auto-Scroll</strong> - You can select to automatically scroll down the page. (and back up).
+					</li>
+					<li>
+						<strong>Auto-Refresh</strong> - Select this option to have the page periodically refresh its data.
+					</li>
+					<li>
+						<strong>Sorting</strong> - Application sort-order can be toggled between issue <em>priority</em> or <em>alphabetically</em> (default).
+					</li>
+					<li>
+						<strong>Save App Selection</strong> - Click this option and Argus will automatically hide the apps you don't want to see for future visits.
+					</li>
+					<li>
+						<strong>Responsive Design</strong> - The website maintains function and style on both desktop and mobile devices.
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 
-<h2>How The Color-Coding Works</h2>
-<div>
-	<p>
-		Applications having no reported issues will have their UI elements shaded <span class="text-success">green</span>, while
-		those having 1-2 issues are shaded <span class="text-warning">yellow</span>. Applications having 3 or more reported issues
-		- or have <em>any</em> number of issues of <b>high priority</b> - will be shaded <span class="text-danger">red</span>.
-	</p>
-	<p>
-		Additionally, applications with any number of high priority issues will be denoted with a
-		<i class="fa fa-exclamation-triangle pulse" aria-hidden="true" title="High priority issue(s) have been reported."></i> icon.
-	</p>
-</div>
-<br />
+	<div class="card">
+		<div class="card-header" id="headingColorCoding">
+			<h2 class="mb-0">
+				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseColorCoding" aria-expanded="false" aria-controls="collapseColorCoding">
+					How The Color-Coding Works
+				</button>
+			</h2>
+		</div>
+		<div id="collapseColorCoding" class="collapse" aria-labelledby="headingColorCoding" data-parent="#accordionExample">
+			<div class="card-body">
+				<p>
+					Applications having no reported issues will have their UI elements shaded <span class="text-success">green</span>, while
+					those having 1-2 issues are shaded <span class="text-warning">yellow</span>. Applications having 3 or more reported issues
+					- or have <em>any</em> number of issues of <b>high priority</b> - will be shaded <span class="text-danger">red</span>.
+				</p>
+				<p>
+					Additionally, applications with any number of high priority issues will be denoted with a
+					<i class="fa fa-exclamation-triangle pulse" aria-hidden="true" title="High priority issue(s) have been reported."></i> icon.
+				</p>
+			</div>
+		</div>
+	</div>
 
-<h2>The Name</h2>
-<div>
-	<strong>Argus</strong> is named after <em>Argus Panoptes</em>, the many-eyed giant of Greek mythology tasked with guarding Io by the goddess Hera,
-	from whom the phrase <em><q cite="https://en.wikipedia.org/wiki/Argus_Panoptes">the eyes of Argus</q></em> derives.
-	<em>Panoptes</em> translates to "the all-seeing", though apparently not in a premonitory sense, as in an ironic twist of fate
-	<span class="spoiler">Argus is slain by the Olympian messenger Hermes after being lulled into a deep sleep.</span>
-</div>
-<br />
+	<div class="card">
+		<div class="card-header" id="headingName">
+			<h2 class="mb-0">
+				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseName" aria-expanded="false" aria-controls="collapseName">
+					The Name
+				</button>
+			</h2>
+		</div>
+		<div id="collapseName" class="collapse" aria-labelledby="headingName" data-parent="#accordionExample">
+			<div class="card-body">
+				<strong>Argus</strong> is named after <em>Argus Panoptes</em>, the many-eyed giant of Greek mythology tasked with guarding Io by the goddess Hera,
+				from whom the phrase <em><q cite="https://en.wikipedia.org/wiki/Argus_Panoptes">the eyes of Argus</q></em> derives.
+				<em>Panoptes</em> translates to "the all-seeing", though apparently not in a premonitory sense, as in an ironic twist of fate
+				<span class="spoiler">Argus is slain by the Olympian messenger Hermes after being lulled into a deep sleep.</span>
+			</div>
+		</div>
+	</div>
 
-<h2>Technical</h2>
-<div>
-	<p>
-		App version: @ViewBag.AppVersion
-	</p>
-	<strong>Argus</strong> is built with the following:
-	<p>
-		<ul>
-			<li>ASP.NET Core MVC 2.2</li>
-			<li>Bootstrap 4</li>
-			<li>C#</li>
-			<li>Dapper 1.60</li>
-			<li>jQuery 3.3.1</li>
-			<li>Moq 4.11</li>
-		</ul>
-	</p>
+	<div class="card">
+		<div class="card-header" id="headingTechnical">
+			<h2 class="mb-0">
+				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTechnical" aria-expanded="false" aria-controls="collapseTechnical">
+					Technical
+				</button>
+			</h2>
+		</div>
+		<div id="collapseTechnical" class="collapse" aria-labelledby="headingTechnical" data-parent="#accordionExample">
+			<div class="card-body">
+				<p>
+					App version: @ViewBag.AppVersion
+				</p>
+				<strong>Argus</strong> is built with the following:
+				<p>
+					<ul>
+						<li>ASP.NET Core 2.2 MVC</li>
+						<li>Bootstrap 4</li>
+						<li>C#</li>
+						<li>Dapper 1.60</li>
+						<li>jQuery 3.3.1</li>
+						<li>Moq 4.11</li>
+					</ul>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-header" id="headingContact">
+			<h2 class="mb-0">
+				<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseContact" aria-expanded="false" aria-controls="collapseContact">
+					Contact
+				</button>
+			</h2>
+		</div>
+		<div id="collapseContact" class="collapse" aria-labelledby="headingContact" data-parent="#accordionExample">
+			<div class="card-body">
+				<ul>
+					<li><a href="mailto:jordon.malm@gmail.com" target="_top">Jordon Malm</a>, Software Developer</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 </div>
