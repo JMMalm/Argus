@@ -35,6 +35,7 @@ namespace Argus.MVC
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
 
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

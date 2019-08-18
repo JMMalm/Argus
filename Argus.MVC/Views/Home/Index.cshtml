@@ -27,6 +27,9 @@
 		</environment>
 	</h1>
 	<p>Status as of <span id="StatusDateTime">@DateTime.Now</span>.</p>
+
+	@await Html.PartialAsync("_ChangelogUpdatePartial")
+
 	<div id="AfterHoursAlert" class="alert alert-warning alert-dismissible" role="alert">
 		<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 		NOTE: Auto-refresh is disabled between 6pm and 8am local time! You may still refresh data by reloading the page on-demand.

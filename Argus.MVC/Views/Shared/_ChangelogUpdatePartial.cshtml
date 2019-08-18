@@ -1,0 +1,27 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+	string latestAppVersion = typeof(Argus.MVC.Controllers.HomeController).Assembly.GetName().Version.ToString();
+	var userAppVersion = HttpContextAccessor.HttpContext.Request.Cookies["userAppVersion"];
+	//var cookies = HttpContextAccessor.HttpContext.Request.Cookies;
+
+	bool showChangelogAlert = !string.Equals(userAppVersion, latestAppVersion, StringComparison.InvariantCultureIgnoreCase);
+}
+
+@if (showChangelogAlert)
+{
+	<div id="ChangelogUpdateAlert" class="alert alert-primary alert-dismissible" role="alert">
+		<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+		Welcome to Argus <b>@($"v{latestAppVersion}!")</b> See what's new in the
+		<a asp-area="" asp-controller="Home" asp-action="About" class="font-weight-bold">Changelog</a>.
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+	</div>
+
+	<script>
+		window.onload = function () {
+			$('#ChangelogUpdateAlert').on('closed.bs.alert', function () {
+				document.cookie = 'userAppVersion=' + '@latestAppVersion';
+			});
+		};
+	</script>
+}
