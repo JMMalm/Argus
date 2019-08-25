@@ -66,6 +66,7 @@ namespace Argus.MVC
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
+			app.UseMiddleware<Middleware.ErrorLogging>(Configuration);
 
 			app.UseMvc(routes =>
 			{

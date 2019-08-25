@@ -113,6 +113,16 @@ namespace Argus.MVC.Controllers
 			return View(new ErrorViewModel { RequestId = requestId });
 		}
 
+		/// <summary>
+		/// Tests writing error messages to a log file via the new middleware class.
+		/// Temporary; will be removed later.
+		/// </summary>
+		/// <returns></returns>
+		public IActionResult TestError()
+		{
+			throw new Exception("TEST ERROR!");
+		}
+
 		[HttpGet]
 		public IActionResult GetApplicationUpdates(int[] applicationIds, int sortOption = 0, bool isTest = false)
 		{
