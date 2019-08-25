@@ -52,7 +52,10 @@ namespace Argus.MVC.Middleware
 			catch (Exception e)
 			{
 				string logDirectory = Path.Combine(_config.GetValue<string>("logFilePath"));
-				WriteToFile(logDirectory, e.Message);
+				string requestData = FormatRequestInfo(context.Request);
+				string exceptionData = FormatExceptionInfo(e);
+
+				WriteToFile(logDirectory, $"{requestData}{Environment.NewLine}{exceptionData}");
 				//System.Diagnostics.Debug.WriteLine($"The following error happened: {e.Message}");
 
 				throw;
@@ -80,7 +83,7 @@ namespace Argus.MVC.Middleware
 
 				// UTC time = Central time + 5 hours.
 				// NewLine creates a blank line between log file entries.
-				File.AppendAllText(logFilePathAndName, $"[{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffffff")}] {message}{Environment.NewLine}");
+				File.AppendAllText(logFilePathAndName, $"[{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff")}] {message}{Environment.NewLine}{Environment.NewLine}");
 			}
 			catch (Exception ex)
 			{
@@ -91,6 +94,36 @@ namespace Argus.MVC.Middleware
 				// with file-writing this file-writing error info attached.
 				throw ex;
 			}
+		}
+
+		/// <summary>
+		/// Formats request data into a conveniently readable string.
+		/// </summary>
+		/// <param name="request">The HTTP request.</param>
+		/// <returns>A string of the HTTP request data.</returns>
+		private string FormatRequestInfo(HttpRequest request)
+		{
+			return $"{request.Method} {request.Scheme}://{request.Host}{request.Path}{request.QueryString} ({request.HttpContext.Response.StatusCode})";
+		}
+
+		/// <summary>
+		/// Formats exception data into a conveniently readable string.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns></returns>
+		private string FormatExceptionInfo(Exception e)
+		{
+			string exceptionInfo = string.Empty;
+			if (e != null)
+			{
+				exceptionInfo = $"{e.Message}{Environment.NewLine}{e.StackTrace}";
+				if (e.InnerException != null)
+				{
+					exceptionInfo += $"{Environment.NewLine}INNER EXCEPTION: {FormatExceptionInfo(e.InnerException)}";
+				}
+			}
+
+			return exceptionInfo;
 		}
 	}
 }
