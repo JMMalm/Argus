@@ -1,7 +1,6 @@
 ﻿using Argus.Core.Application;
 using Argus.Core.Enums;
 using Argus.Core.Issue;
-using Argus.Infrastructure.Logging;
 using Argus.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -59,9 +58,7 @@ namespace Argus.MVC.Controllers
 			}
 			catch (Exception ex)
 			{
-				// Use StaticLogger until file-writing is possible via ILogger without a 3rd-party package.
 				_logger.LogError(ex, "Error in HomeController.Index()!");
-
 				throw;
 			}
 
@@ -78,9 +75,7 @@ namespace Argus.MVC.Controllers
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "Error in HomeController.About()!");
-				StaticLogger.Write(ex);
-
-				return Error();
+				throw;
 			}
 
 			return View();
@@ -106,7 +101,7 @@ namespace Argus.MVC.Controllers
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "Error in HomeController.About()!");
-				StaticLogger.Write(ex);
+				throw;
 			}
 
 			return View(new ErrorViewModel { RequestId = requestId });
@@ -132,7 +127,7 @@ namespace Argus.MVC.Controllers
 						.Where(a => applicationIds.Contains(a.Id))
 						.ToList();
 
-				//Modify some data to test client-side updating, because we have limited data to work with.
+				// Modify some data to test client-side updating, because we have limited data to work with.
 				if (isTest && applications?.Count() >= 2)
 				{
 					applications[0].IssueCount = 3;
@@ -144,9 +139,7 @@ namespace Argus.MVC.Controllers
 			}
 			catch (Exception ex)
 			{
-				// Use StaticLogger until file-writing is possible via ILogger without a 3rd-party package.
 				_logger.LogError(ex, "Error in HomeController.GetApplicationUpdates()!");
-
 				throw;
 			}
 		}
@@ -191,18 +184,10 @@ namespace Argus.MVC.Controllers
 		private SortOption GetValidSortOption(int sortOption)
 		{
 			SortOption sortSelection = (int)SortOption.Alphabetical;
-			try
-			{
-				sortSelection =
-					(SortOption)Enum.GetValues(typeof(SortOption))
-						.Cast<int>()
-						.FirstOrDefault(o => o == sortOption);
-			}
-			catch(Exception ex)
-			{
-				// This is a minor error but log it anyway.
-				StaticLogger.Write(ex);
-			}
+			sortSelection =
+				(SortOption)Enum.GetValues(typeof(SortOption))
+					.Cast<int>()
+					.FirstOrDefault(o => o == sortOption);
 
 			return sortSelection;
 		}
