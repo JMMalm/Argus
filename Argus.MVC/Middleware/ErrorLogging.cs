@@ -51,12 +51,20 @@ namespace Argus.MVC.Middleware
 			}
 			catch (Exception e)
 			{
-				string logDirectory = Path.Combine(_config.GetValue<string>("logFilePath"));
-				string requestData = FormatRequestInfo(context.Request);
-				string exceptionData = FormatExceptionInfo(e);
+				try
+				{
+					string logDirectory = Path.Combine(_config.GetValue<string>("logFilePath"));
+					string requestData = FormatRequestInfo(context.Request);
+					string exceptionData = FormatExceptionInfo(e);
 
-				WriteToFile(logDirectory, $"{requestData}{Environment.NewLine}{exceptionData}");
-				//System.Diagnostics.Debug.WriteLine($"The following error happened: {e.Message}");
+					WriteToFile(logDirectory, $"{requestData}{Environment.NewLine}{exceptionData}");
+					//System.Diagnostics.Debug.WriteLine($"The following error happened: {e.Message}"); // Kept for reference.
+				}
+				catch (Exception logException)
+				{
+					// Keeping the "ex.Data" for now because it may have interesting uses later.
+					e.Data.Add("Details", $"Logging error: {logException.Message}!");
+				}
 
 				throw;
 			}
@@ -72,28 +80,16 @@ namespace Argus.MVC.Middleware
 		/// </remarks>
 		private void WriteToFile(string logDirectory, string message)
 		{
-			try
+			if (!Directory.Exists(logDirectory))
 			{
-				if (!Directory.Exists(logDirectory))
-				{
-					Directory.CreateDirectory(logDirectory);
-				}
-
-				string logFilePathAndName = Path.Combine($"{logDirectory}", $"{DateTime.Now.ToString("yyyy-MM-dd")}.log");
-
-				// UTC time = Central time + 5 hours.
-				// NewLine creates a blank line between log file entries.
-				File.AppendAllText(logFilePathAndName, $"[{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff")}] {message}{Environment.NewLine}{Environment.NewLine}");
+				Directory.CreateDirectory(logDirectory);
 			}
-			catch (Exception ex)
-			{
-				// Keeping the "ex.Data" for now because it may have interesting uses later.
-				ex.Data.Add("Details", $"Failed to write message in {logDirectory}!");
 
-				// TODO:It would be more preferable to throw the original exception, perhaps
-				// with file-writing this file-writing error info attached.
-				throw ex;
-			}
+			string logFilePathAndName = Path.Combine($"{logDirectory}", $"{DateTime.Now.ToString("yyyy-MM-dd")}.log");
+
+			// UTC time = Central time + 5 hours.
+			// NewLine creates a blank line between log file entries.
+			File.AppendAllText(logFilePathAndName, $"[{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff")}] {message}{Environment.NewLine}{Environment.NewLine}");
 		}
 
 		/// <summary>
@@ -103,7 +99,10 @@ namespace Argus.MVC.Middleware
 		/// <returns>A string of the HTTP request data.</returns>
 		private string FormatRequestInfo(HttpRequest request)
 		{
-			return $"{request.Method} {request.Scheme}://{request.Host}{request.Path}{request.QueryString} ({request.HttpContext.Response.StatusCode})";
+			string requestData = $"Request ID: {request.HttpContext.TraceIdentifier}{Environment.NewLine}";
+			requestData += $"{request.Method} {request.Scheme}://{request.Host}{request.Path}{request.QueryString} ({request.HttpContext.Response.StatusCode})";
+
+			return requestData;
 		}
 
 		/// <summary>

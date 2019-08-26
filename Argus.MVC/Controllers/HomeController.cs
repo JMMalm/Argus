@@ -61,9 +61,8 @@ namespace Argus.MVC.Controllers
 			{
 				// Use StaticLogger until file-writing is possible via ILogger without a 3rd-party package.
 				_logger.LogError(ex, "Error in HomeController.Index()!");
-				StaticLogger.Write(ex);
 
-				return Error();
+				throw;
 			}
 
 			return View(appsModel);
@@ -147,9 +146,8 @@ namespace Argus.MVC.Controllers
 			{
 				// Use StaticLogger until file-writing is possible via ILogger without a 3rd-party package.
 				_logger.LogError(ex, "Error in HomeController.GetApplicationUpdates()!");
-				StaticLogger.Write(ex);
 
-				return Error();
+				throw;
 			}
 		}
 
