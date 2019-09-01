@@ -79,6 +79,21 @@
 	</div>
 
 	<div class="card">
+		<div class="card-header" id="headingChangelog" data-toggle="collapse" data-target="#collapseChangelog" aria-expanded="false" aria-controls="collapseChangelog">
+			<h2 class="mb-0">
+				<button class="btn btn-link collapsed" type="button">
+					Changelog
+				</button>
+			</h2>
+		</div>
+		<div id="collapseChangelog" class="collapse" aria-labelledby="headingChangelog" data-parent="#accordionExample">
+			<div class="card-body">
+				@await Component.InvokeAsync("ChangeLog")
+			</div>
+		</div>
+	</div>
+
+	<div class="card">
 		<div class="card-header" id="headingName" data-toggle="collapse" data-target="#collapseName" aria-expanded="false" aria-controls="collapseName">
 			<h2 class="mb-0">
 				<button class="btn btn-link collapsed" type="button">
