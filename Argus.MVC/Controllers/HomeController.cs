@@ -65,10 +65,11 @@ namespace Argus.MVC.Controllers
 			return View(appsModel);
 		}
 
-		public IActionResult About()
+		public IActionResult About(bool showChangeLog = false)
 		{
 			try
 			{
+				ViewBag.ShowChangeLog = showChangeLog;
 				ViewBag.FontAwesomeKey = _config.GetValue<string>("fontawesome-cdn-key");
 				ViewBag.AppVersion = GetAssemblyVersion();
 			}

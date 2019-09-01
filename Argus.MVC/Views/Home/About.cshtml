@@ -2,6 +2,12 @@
 @{
 	ViewData["Title"] = "About";
 	string fontAwesomeCdnSource = "https://use.fontawesome.com/" + @ViewBag.FontAwesomeKey + ".js";
+
+	string changelogCollapseCss = "collapse";
+	if (ViewBag.ShowChangeLog)
+	{
+		changelogCollapseCss += " show";
+	}
 }
 
 <script src="@fontAwesomeCdnSource"></script>
@@ -79,14 +85,14 @@
 	</div>
 
 	<div class="card">
-		<div class="card-header" id="headingChangelog" data-toggle="collapse" data-target="#collapseChangelog" aria-expanded="false" aria-controls="collapseChangelog">
+		<div class="card-header" id="headingChangelog" data-toggle="collapse" data-target="#collapseChangelog" aria-expanded="@(ViewBag.ShowChangeLog)" aria-controls="collapseChangelog">
 			<h2 class="mb-0">
 				<button class="btn btn-link collapsed" type="button">
 					Changelog
 				</button>
 			</h2>
 		</div>
-		<div id="collapseChangelog" class="collapse" aria-labelledby="headingChangelog" data-parent="#accordionExample">
+		<div id="collapseChangelog" class="@(changelogCollapseCss)" aria-labelledby="headingChangelog" data-parent="#accordionExample">
 			<div class="card-body">
 				@await Component.InvokeAsync("ChangeLog")
 			</div>
